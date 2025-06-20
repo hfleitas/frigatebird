@@ -1,6 +1,6 @@
 # Frigatebird
 
-This repo contains scripts for Cloud Accelerate Factory - Fed Cx
+This repo contains scripts for Cloud Accelerate Factory customer engagement.
 
 - [kql](kql)
 
