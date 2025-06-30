@@ -3,8 +3,11 @@ This repo contains scripts for Cloud Accelerate Factory customer engagement.
 - [kql](kql)
 
 ## Training
+- https://aka.ms/vbdadx (MS-Internal VBDs)
 - https://aka.ms/adxinaday
-- https://aka.ms/vbdadx (MS-internal link only - Value Based Deliveries)
+- https://aka.ms/adx.iot
+- https://aka.ms/adx.microhack
+- https://aka.ms/cip/adxforsentinel
 - https://detective.kusto.io
 - https://aka.ms/kdahackathon
 
