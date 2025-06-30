@@ -10,6 +10,7 @@ This repo contains scripts for Cloud Accelerate Factory customer engagement.
 - https://aka.ms/cip/adxforsentinel
 - https://detective.kusto.io
 - https://aka.ms/kdahackathon
+- https://aka.ms/adx.pluralsight
 
 ## Reources
 - [Time series anomaly detection & forecasting](https://learn.microsoft.com/en-us/kusto/query/anomaly-detection?view=microsoft-fabric)
