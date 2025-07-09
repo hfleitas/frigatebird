@@ -1,0 +1,24 @@
+.show tables
+
+.create table MyTable(id:int, fname:string, lname:string, age:int, enquedDate:datetime)
+
+.show table MyTable
+
+//add columns
+.alter-merge table MyTable (Column1:string, Column2:int)
+
+//remove columns
+.alter table MyTable (id:int, fname:string, lname:string, age:int, enquedDate:datetime)
+
+//change types
+//int to string
+.alter table MyTable (id:string,fname:string, lname:string, age:int, enquedDate:datetime) //not supported
+
+.alter-merge table MyTable (Column1:string, Column2:int) //notice added at the end...
+
+//string to dynamic
+.alter-merge table MyTable (id:string,fname:string, lname:string, age:int, enquedDate:datetime, Column1:dynamic, Column2:dynamic) //not supported
+
+// [proceed to options a or b]
+// a. new table, <|, rename - do it all in .execute database script async cmds for large tables.
+// b. PREFERRED METHOD - create function with same name that casts Column1=todynamic(Column1), etc. KQL defaults to query function instead of table when same name.
