@@ -22,3 +22,11 @@
 // [proceed to options a or b]
 // a. new table, <|, rename - do it all in .execute database script async cmds for large tables.
 // b. PREFERRED METHOD - create function with same name that casts Column1=todynamic(Column1), etc. KQL defaults to query function instead of table when same name.
+
+// option B
+.create function MyTable(){
+table('MyTable')
+| project id, fname, lname, age, enquedDate, Column1=todynamic(Column1), Column2=todynamic(Column2)
+}
+
+//for option A see ChangingDatatypes.kql
