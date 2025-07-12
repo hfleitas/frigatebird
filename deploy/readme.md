@@ -66,12 +66,12 @@ The scripts share the same core logic: querying LA tables, validating support, c
 - **Type Mapping:**
   - Original: Limited conversions (datetime to 'datetime'/todatetime; others to 'string'/tostring).
   - Modified: Expanded switch on ColumnType (lowercase): Adds cases for 'dynamic' (todynamic), 'bool' (bool/tobool), 'guid' (guid/toguid), 'timespan' (timespan/totimespan), 'int' (int/toint), 'long' (long/tolong), 'real' (real/todouble), 'decimal' (decimal/todecimal). Default: 'string'/tostring.
-- **Retention Policy:** Original: .alter-merge table ... retention softdelete = 0d.
-  - Modified: .alter table ... policy retention '{{"SoftDeletePeriod" : "7.00:00:00", "Recoverability" : "Enabled"}}' (7 days, recoverability enabled).
+- **Retention Policy:** Original: `.alter-merge table ... retention softdelete = 0d`.
+  - Modified: `.alter table ... policy retention '{{"SoftDeletePeriod" : "7.00:00:00", "Recoverability" : "Enabled"}}'` (7 days, recoverability enabled).
 - **Caching Policies:** Original: None.
-  - Modified: Adds .alter table ... policy caching hot = 1d" for raw table; .alter table ... policy caching hot = 365d for main table.
+  - Modified: Adds `.alter table ... policy caching hot = 1d` for raw table; `.alter table ... policy caching hot = 365d` for main table.
 - **Policy Update:** Original: IsEnabled: "True", "IsTransactional": true.
-  - Modified: IsEnabled: true, "IsTransactional": false (non-transactional for potentially faster, less strict ingestion).
+  - Modified: IsEnabled: true, `"IsTransactional": false` (non-transactional for potentially faster, less strict ingestion).
 
 6. Main Functions: New-EventHubNamespace
 - **Namespace Creation:**
