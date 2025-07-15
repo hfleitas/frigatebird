@@ -3,6 +3,8 @@
 // THIS IS DANGEROUS //
 ///////////////////////
 
+// If you make a mistake and accidently run this for an unintended object, you may try to restore it using ".show journal..." to get the previous version and ".undo..." to restore it.
+
 .show tables
 | project TableName
 | extend DropCommand = strcat(".drop table ", TableName, " ifexists")
@@ -20,3 +22,4 @@
 
 .execute database script <|
 <DropCommand>
+
