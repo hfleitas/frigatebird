@@ -1,7 +1,7 @@
 # Frigatebird
 This repo contains items related to Cloud Accelerate Factory customer engagement.
 - [kql](kql)
-- [CAF - ILZ Fed.pdf](CAF-ILZFed.pdf)
+- [CAF-ILZFed.pdf](CAF-ILZFed.pdf)
 - [deploy](deploy)
 
 ## Training
