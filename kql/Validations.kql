@@ -67,8 +67,8 @@ BehaviorAnalytics
 // 4. Ingestion failures
 
 //db settings
-.show database MyDatabase policy retention //30months
-.show database MyDatabase policy caching //12months
+.show database MyDatabase policy retention //30months (931d)
+.show database MyDatabase policy caching //12months (365d)
 
 //all tables
 //raw: 7d cold, 1d hot, target: 30months cold, 12months hot. streaming enabled for clus.
@@ -80,12 +80,13 @@ BehaviorAnalytics
 .show table BehaviorAnalyticsRaw policy retention  //7d
 
 //per table cache
-.show database MyDatabase policy cache //12months
+.show table BehaviorAnalytics policy caching //12months
 
-.show table BehaviorAnalytics extents  
+.show table BehaviorAnalyticsRaw policy caching //1d
 
-.show tables | project TableName, UpdatePolicy
- 
+.show table BehaviorAnalytics extents  // should show hot extents
+
+//update policies
 .show table * policy update
 
 //Update policies as transact, should be none.
@@ -98,17 +99,28 @@ BehaviorAnalytics
 //| where IsTransactional != 'false'
 | where IsTransactional == 'true'
 
-.show ingestion failures | where Table == "BehaviorAnalytics"
+//monitor failures
+.show ingestion failures 
+| where Table == "BehaviorAnalytics"
 | sort by FailedOn desc
-| take 1
+| top 10 by FailedOn
+
+.show diagnostics
+
+.show diagnostics
+| project HotDataDiskSpaceUsage
+
+.show tables details
+| summarize HotExtentSize=format\_bytes(sum(HotOriginalSize),2)
+
+//If needed, see perf metrics via additional system views. https://learn.microsoft.com/en-us/kusto/management/show-commands
 
 //////////////
 // SETTINGS // // validate via Azure portal, not via KQL.
 //////////////
+0. Review ADX Insights Blade for metrics, Azure Advisor, Streaming, VM Sku, node count, optimized auto-scale, enabled diags.
 1. Hub partitions should be 8+
 2. Hub namespace is prem/stand – sku, +2 PUs, 
-3. Hub namespace is one namespace per hub ie. 1:1.
+3. Hub namespace has at least 10 hubs. This is due to LAW Export limits. http://aka.ms/LADataExport#limitations
 4. Check Hub namespace metrics for requests (> 0 is good) 
 5. Check Hub namespace hrottling (> 0 is not good).
-
-
