@@ -32,7 +32,7 @@ BehaviorAnalytics
 BehaviorAnalytics
 | where TimeGenerated between (datetime(2025-07-13 00:00:00) .. datetime(2025-7-14 00:00:00))
 | summarize count() by DestinationIPAddress, DestinationIPLocation, DestinationDevice
-| sort by count_
+| sort by count_ desc
 | top 10 by count_
 
 // drill into a suspect record to check if matches across both systems. 
