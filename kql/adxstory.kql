@@ -1,0 +1,282 @@
+.show database cslschema script;
+$command_results
+| project DatabaseSchemaScript 
+| where DatabaseSchemaScript has_any ('AADManagedIdentitySignInLogs','AADNonInteractiveUserSignInLogs','AADServicePrincipalSignInLogs','ADFSSignInLOgs','33rd_CoS_NiFiEventLogs')
+
+
+// OPTION 1 : CHANGE DATA TYPE
+
+.alter-merge table AADManagedIdentitySignInLogs ( ConditionalAccessPolicies: dynamic, LocationDetails: dynamic )
+
+
+.alter-merge table 33rd_CoS_NiFiEventLogs schema ( severity: string, version: string )
+.alter-merge table AADNonInteractiveUserSignInLogs schema ( AppliedEventListeners: dynamic, ConditionalAccessPolicies: dynamic, DeviceDetail: dynamic, IsInteractive: bool, IsRisky: bool, LocationDetails: dynamic, MfaDetail: dynamic, Status: dynamic )
+.alter-merge table AADServicePrincipalSignInLogs schema ( ConditionalAccessPolicies: dynamic, LocationDetails: dynamic )
+.alter-merge table ADFSSignInLogs schema ( ConditionalAccessPolicies: dynamic, DeviceDetail: dynamic, IsInteractive: bool, Status: dynamic )
+
+
+
+.alter table MyTable (ColumnX:string, ColumnY:int) 
+
+.append MyTable <| datatable (ColumnX:string, ColumnY:int, ColumnA:string)[
+    'helloworld',1,'helloworld'
+    ]
+
+.alter table MyTable (ColumnX:string, ColumnY:int, ColumnA:string) 
+
+.create table MyTable2 (ColumnX:string, ColumnY:int, ColumnA:dynamic) 
+
+//automate this as single command.
+.execute database script <|
+//cold 
+.set-or-append MyTable2 <| MyTable | project ColumnX,ColumnY,ColumnA=todynamic(ColumnA);
+//hot by rename
+.rename table MyTable to MyTable_deleteme;
+.rename table MyTable2 to MyTable;
+
+MyTable
+| take 10
+
+
+.show table MyTable extents  
+
+
+// OPTION 2 - function method... Easy and Fast.
+
+.create function MyTable () {
+    table('MyTable')
+    | project ColumnX=todynamic(ColumnX), ColumnY, ColumnA
+}
+
+
+table('MyTable')
+| getschema 
+
+MyTable
+| getschema 
+
+
+MyTable
+
+
+// Colin Fix 'AADManagedIdentitySignInLogs','AADNonInteractiveUserSignInLogs','AADServicePrincipalSignInLogs','ADFSSignInLOgs','33rd_CoS_NiFiEventLogs'
+
+.create function with (folder='schemaSync') AADManagedIdentitySignInLogs () {
+
+
+AADManagedIdentitySignInLogs
+| project 
+TenantId,
+SourceSystem,
+TimeGenerated,
+OperationName,
+OperationVersion,
+Category,
+ResultType,
+ResultSignature,
+ResultDescription,
+DurationMs,
+CorrelationId,
+ResourceGroup,
+Identity,
+Level,
+Location,
+AppId,
+AuthenticationContextClassReferences,
+AuthenticationProcessingDetails,
+ConditionalAccessPolicies,
+ConditionalAccessPoliciesV2,
+ConditionalAccessStatus,
+FederatedCredentialId,
+Id,
+IPAddress,
+LocationDetails,
+ResourceDisplayName,
+ResourceIdentity,
+ResourceServicePrincipalId,
+ServicePrincipalCredentialKeyId,
+ServicePrincipalCredentialThumbprint,
+ServicePrincipalId,
+ServicePrincipalName,
+UniqueTokenIdentifier,
+Type,
+
+TenantId    :   string  ,
+SourceSystem    :   string  ,
+TimeGenerated   :   datetime    ,
+OperationName   :   string  ,
+OperationVersion    :   string  ,
+Category    :   string  ,
+ResultType  :   string  ,
+ResultSignature :   string  ,
+ResultDescription   :   string  ,
+DurationMs  :   long    ,
+CorrelationId   :   string  ,
+ResourceGroup   :   string  ,
+Identity    :   string  ,
+Level   :   string  ,
+Location    :   string  ,
+// Agent    :   string  ,
+AppId   :   string  ,
+// AppOwnerTenantId :   string  ,
+AuthenticationContextClassReferences    :   string  ,
+AuthenticationProcessingDetails :   string  ,
+// ClientCredentialType :   string  ,
+ConditionalAccessPolicies   :   string  ,
+ConditionalAccessPoliciesV2 :   dynamic ,
+ConditionalAccessStatus :   string  ,
+// CreatedDateTime  :   datetime    ,
+FederatedCredentialId   :   string  ,
+Id  :   string  ,
+IPAddress   :   string  ,
+LocationDetails :   string  ,
+// ManagedServiceIdentity   :   string  ,
+// NetworkLocationDetails   :   string  ,
+ResourceDisplayName :   string  ,
+ResourceIdentity    :   string  ,
+// ResourceOwnerTenantId    :   string  ,
+ResourceServicePrincipalId  :   string  ,
+ServicePrincipalCredentialKeyId :   string  ,
+ServicePrincipalCredentialThumbprint    :   string  ,
+ServicePrincipalId  :   string  ,
+ServicePrincipalName    :   string  ,
+// SessionId    :   string  ,
+UniqueTokenIdentifier   :   string  ,
+Type    :   string  ,
+            
+// Extra
+Agent
+AppOwnerTenantId
+ClientCredentialType
+CreatedDateTime
+ManagedServiceIdentity
+NetworkLocationDetails
+ResourceOwnerTenantId
+SessionId
+
+
+
+cluster('https://ade.loganalytics.io/subscriptions/059a6208-97b5-48d7-ad37-4005e57ff26c/resourcegroups/daf-sentinel-prod/providers/microsoft.operationalinsights/workspaces/milz-operations-prod-log').database('milz-operations-prod-log').AADManagedIdentitySignInLogs
+| count 
+
+.alter cluster policy callout
+``` 
+[
+     {         
+        "CalloutType": "sql",         
+        "CalloutUriRegex": "sqlname\\.database\\.azure\\.com/?$",         
+        "CanCall": true     
+    } 
+] 
+        ```
+
+
+.show cluster policy callout
+ 
+// enable webapi callout for https
+.alter cluster policy callout @'[{"CalloutType": "webapi","CalloutUriRegex": "https*","CanCall": true}]'
+ 
+// multiple callout types, webapi https* added last
+.alter cluster policy callout @'[{"CalloutType": "sandbox_artifacts", "CalloutUriRegex": "artifcatswestus\\.blob\\.core\\.windows\\.net/public/", "CanCall": true}, {"CalloutType": "sandbox_artifacts", "CalloutUriRegex": "artifcatswestus\\.blob\\.core\\.windows\\.net/kusto/", "CanCall": true}, {"CalloutType": "sandbox_artifacts", "CalloutUriRegex": "artifcatswestus\\.blob\\.core\\.windows\\.net/python/", "CanCall": true}, {"CalloutType": "sandbox_artifacts", "CalloutUriRegex": "artifacts\\.blob\\.core\\.windows\\.net/kusto/", "CanCall": true }, {"CalloutType": "webapi", "CalloutUriRegex": "https*", "CanCall": true}]'
+ 
+.show cluster policy callout
+ 
+AADManagedIdentitySignInLogs
+| project 
+tostring    (   TenantId    ),
+tostring    (   SourceSystem    ),
+todatetime  (   TimeGenerated   ),
+tostring    (   OperationName   ),
+tostring    (   OperationVersion    ),
+tostring    (   Category    ),
+tostring    (   ResultType  ),
+tostring    (   ResultSignature ),
+tostring    (   ResultDescription   ),
+tolong  (   DurationMs  ),
+tostring    (   CorrelationId   ),
+tostring    (   ResourceGroup   ),
+tostring    (   Identity    ),
+tostring    (   Level   ),
+tostring    (   Location    ),
+// tostring (   Agent   ),//
+tostring    (   AppId   ),
+//tostring  (   AppOwnerTenantId    ),//
+tostring    (   AuthenticationContextClassReferences    ),
+tostring    (   AuthenticationProcessingDetails ),
+//tostring  (   ClientCredentialType    ),//
+tostring    (   ConditionalAccessPolicies   ),
+todynamic   (   ConditionalAccessPoliciesV2 ),
+tostring    (   ConditionalAccessStatus ),
+// todatetime   (   CreatedDateTime ),//
+tostring    (   FederatedCredentialId   ),
+tostring    (   Id  ),
+tostring    (   IPAddress   ),
+tostring    (   LocationDetails ),
+// tostring (   ManagedServiceIdentity  ),//
+// tostring (   NetworkLocationDetails  ),//
+tostring    (   ResourceDisplayName ),
+tostring    (   ResourceIdentity    ),
+// tostring (   ResourceOwnerTenantId   ),//
+tostring    (   ResourceServicePrincipalId  ),
+tostring    (   ServicePrincipalCredentialKeyId ),
+tostring    (   ServicePrincipalCredentialThumbprint    ),
+tostring    (   ServicePrincipalId  ),
+tostring    (   ServicePrincipalName    ),
+// tostring (   SessionId   ),//
+tostring    (   UniqueTokenIdentifier   ),
+tostring    (   Type    )
+| take 1
+
+.create function with (folder='schemaSync') AADManagedIdentitySignInLogs () {
+table('AADManagedIdentitySignInLogs')
+| project 
+tostring    (   TenantId    ),
+tostring    (   SourceSystem    ),
+todatetime  (   TimeGenerated   ),
+tostring    (   OperationName   ),
+tostring    (   OperationVersion    ),
+tostring    (   Category    ),
+tostring    (   ResultType  ),
+tostring    (   ResultSignature ),
+tostring    (   ResultDescription   ),
+tolong  (   DurationMs  ),
+tostring    (   CorrelationId   ),
+tostring    (   ResourceGroup   ),
+tostring    (   Identity    ),
+tostring    (   Level   ),
+tostring    (   Location    ),
+// tostring (   Agent   ),//
+tostring    (   AppId   ),
+//tostring  (   AppOwnerTenantId    ),//
+tostring    (   AuthenticationContextClassReferences    ),
+tostring    (   AuthenticationProcessingDetails ),
+//tostring  (   ClientCredentialType    ),//
+tostring    (   ConditionalAccessPolicies   ),
+todynamic   (   ConditionalAccessPoliciesV2 ),
+tostring    (   ConditionalAccessStatus ),
+// todatetime   (   CreatedDateTime ),//
+tostring    (   FederatedCredentialId   ),
+tostring    (   Id  ),
+tostring    (   IPAddress   ),
+tostring    (   LocationDetails ),
+// tostring (   ManagedServiceIdentity  ),//
+// tostring (   NetworkLocationDetails  ),//
+tostring    (   ResourceDisplayName ),
+tostring    (   ResourceIdentity    ),
+// tostring (   ResourceOwnerTenantId   ),//
+tostring    (   ResourceServicePrincipalId  ),
+tostring    (   ServicePrincipalCredentialKeyId ),
+tostring    (   ServicePrincipalCredentialThumbprint    ),
+tostring    (   ServicePrincipalId  ),
+tostring    (   ServicePrincipalName    ),
+// tostring (   SessionId   ),//
+tostring    (   UniqueTokenIdentifier   ),
+tostring    (   Type    )
+}
+
+
+AADManagedIdentitySignInLogs
+| where TimeGenerated between (datetime('5/19/2025')..datetime('5/20/2025'))
+| extend LocationDetails = todynamic(LocationDetails)
+| project  Geocoordinates = parse_json(LocationDetails.geoCoordinates)
+| take 10
