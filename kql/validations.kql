@@ -56,4 +56,21 @@ BehaviorAnalytics
 ////////////////////////
 // POLICY VALIDATIONS //
 ////////////////////////
-1. 
+1. Retention
+2. Cache
+3. Update policy
+4. Ingestion failures
+
+.show table BehaviorAnalytics
+
+//////////////
+// SETTINGS //
+//////////////
+// validate via Azure portal, not via KQL ///
+1. Hub partitions should be 8+
+2. Hub namespace is prem/stand – sku, +2 PUs, 
+3. Hub namespace is one namespace per hub ie. 1:1.
+4. Check Hub namespace metrics for requests (> 0 is good) 
+5. Check Hub namespace hrottling (> 0 is not good).
+
+
