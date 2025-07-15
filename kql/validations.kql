@@ -25,10 +25,15 @@ BehaviorAnalytics
 | project TimeGenerated, DestinationIPAddress, DestinationIPLocation, DestinationDevice
 | where isnotempty(DestinationIPAddress)
 | take 10
- 
+
 BehaviorAnalytics
 | summarize count() by DestinationIPAddress, DestinationIPLocation, DestinationDevice
 
+BehaviorAnalytics
+| where TimeGenerated between (datetime(2025-07-13 00:00:00) .. datetime(2025-7-14 00:00:00))
+| summarize count() by DestinationIPAddress, DestinationIPLocation, DestinationDevice
+| sort by count_
+| top 10 by count_
 
 // drill into a suspect record to check if matches across both systems. 
 BehaviorAnalytics
