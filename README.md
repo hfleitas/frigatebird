@@ -1,6 +1,8 @@
 # Frigatebird
-This repo contains scripts for Cloud Accelerate Factory customer engagement.
+This repo contains items related to Cloud Accelerate Factory customer engagement.
 - [kql](kql)
+- [CAF - ILZ Fed.pdf](CAF-ILZFed.pdf)
+- [deploy](deploy)
 
 ## Training
 - https://aka.ms/vbdadx (MS-Internal VBDs)
