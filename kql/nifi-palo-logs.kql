@@ -1,0 +1,30 @@
+mytable
+| take 10
+
+mytable
+| count
+
+mytable
+| summarize count() by bin(ingestion_time(),1d)
+
+
+//this works at query time and in function, must manually specify field.
+datatable(text:string)["lorem,ipzum,hello,world,,,,,44xA,,,,123,,,4455,etc"] 
+| project Text=split(text,',')
+| project Column1=tostring(Text[0]), Column2=tostring(Text[1]), Colmn3=tostring(Text[2])
+
+
+//these options fail in an update policy if fields are changing.
+//dynamic option 1
+datatable(text:string)["lorem,ipzum,hello,world,,,,,44xA,,,,123,,,4455,etc"]
+| project Text=split(text,',')
+| mv-expand Text to typeof(string)
+| evaluate pivot(Text, take_any(Text))
+
+//dynamic option 2
+datatable(text:string)["lorem,ipzum,hello,world,,,,,44xA,,,,123,,,4455,etc"]
+| extend r = rand()
+| mv-expand with_itemindex = i text
+| summarize b = make_bag(pack(strcat("Col", i + 1), text)) by r
+| project-away r
+| evaluate bag_unpack(b)
