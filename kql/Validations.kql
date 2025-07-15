@@ -58,20 +58,53 @@ BehaviorAnalytics
 
 
 
-////////////////////////
-// POLICY VALIDATIONS //
-////////////////////////
+////////////////////////////
+// ADX POLICY VALIDATIONS //
+////////////////////////////
 // 1. Retention
 // 2. Cache
 // 3. Update policy
 // 4. Ingestion failures
 
-.show table BehaviorAnalytics
+//db settings
+.show database MyDatabase policy retention //30months
+.show database MyDatabase policy caching //12months
+
+//all tables
+//raw: 7d cold, 1d hot, target: 30months cold, 12months hot. streaming enabled for clus.
+.show tables details | project TableName, RetentionPolicy, CachingPolicy, StreamingIngestionPolicy, TotalRowCount, HotRowCount
+
+//per table retention 
+.show table BehaviorAnalytics policy retention  //blank, therefore inherits db policy or explictly set to 30 nonths
+
+.show table BehaviorAnalyticsRaw policy retention  //7d
+
+//per table cache
+.show database MyDatabase policy cache //12months
+
+.show table BehaviorAnalytics extents  
+
+.show tables | project TableName, UpdatePolicy
+ 
+.show table * policy update
+
+//Update policies as transact, should be none.
+.show table * policy update
+| where Policy has '"IsTransactional": true'
+
+.show table * policy update
+| project EntityName,todynamic(Policy)
+| extend EntityName, IsTransactional = Policy[0].IsTransactional
+//| where IsTransactional != 'false'
+| where IsTransactional == 'true'
+
+.show ingestion failures | where Table == "BehaviorAnalytics"
+| sort by FailedOn desc
+| take 1
 
 //////////////
-// SETTINGS //
+// SETTINGS // // validate via Azure portal, not via KQL.
 //////////////
-// validate via Azure portal, not via KQL ///
 1. Hub partitions should be 8+
 2. Hub namespace is prem/stand – sku, +2 PUs, 
 3. Hub namespace is one namespace per hub ie. 1:1.
