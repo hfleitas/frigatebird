@@ -1,0 +1,17 @@
+.show tables
+| project TableName
+| extend DropCommand = strcat(".drop table ", TableName, " ifexists")
+| project DropCommand
+
+
+.execute database script <|
+<DropCommand>
+
+.show functions
+| project Name
+| extend DropCommand = strcat(".drop function ", Name," ifexists")
+| project DropCommand
+
+
+.execute database script <|
+<DropCommand>
