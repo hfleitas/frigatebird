@@ -1,0 +1,39 @@
+BehaviorAnalytics
+//| where TimeGenerated between (datetime(2025-07-14 00:00:00) .. datetime(2025-7-14 00:00:00))
+| where TimeGenerated >= ago(1h)
+//| take 100
+//| getschema 
+| project TimeGenerated, DestinationIPAddress, DestinationIPLocation, DestinationDevice
+| where isnotempty(DestinationIPAddress)
+| take 10
+ 
+ 
+BehaviorAnalytics
+| summarize count() by DestinationIPAddress, DestinationIPLocation, DestinationDevice
+ 
+BehaviorAnalytics
+| take 10
+ 
+BehaviorAnalytics
+| where TimeGenerated between ( datetime('7/14/2025 05:42:08.621')..datetime('7/14/2025 05:42:09.621') )
+| project TimeGenerated, ActivityInsights
+| take 10
+ 
+ 
+ 
+//time values:
+print dt = now()-5m, et = now()-3m
+| project st = dt - 24h, et
+ 
+ 
+BehaviorAnalytics
+| summarize max(ingestion_time())
+ 
+BehaviorAnalytics
+| where TimeGenerated between (datetime('7/12/2025 2:50:54.000') .. datetime('7/14/2025 2:52:54.000') ) 
+| count
+ 
+//1) do a take 10 to inspect the output
+//2) if any columns are blank or suspect, verify that they are blank on both systems
+//3) if any colums are dynamic, verify they ahve the same number of fields for the same time stamp (timegenerated) across both systems
+//4) verify that the table has the same count for several hours/days - same count
