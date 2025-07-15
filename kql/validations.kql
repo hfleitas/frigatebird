@@ -56,10 +56,10 @@ BehaviorAnalytics
 ////////////////////////
 // POLICY VALIDATIONS //
 ////////////////////////
-1. Retention
-2. Cache
-3. Update policy
-4. Ingestion failures
+// 1. Retention
+// 2. Cache
+// 3. Update policy
+// 4. Ingestion failures
 
 .show table BehaviorAnalytics
 
