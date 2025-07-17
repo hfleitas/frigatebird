@@ -14,7 +14,7 @@ This repo contains items related to Cloud Accelerate Factory customer engagement
 - https://aka.ms/kdahackathon
 - https://aka.ms/adx.pluralsight
 
-## Reources
+## Resources
 - [Time series anomaly detection & forecasting](https://learn.microsoft.com/en-us/kusto/query/anomaly-detection?view=microsoft-fabric)
 - [Insights Blade](https://learn.microsoft.com/en-us/azure/data-explorer/data-explorer-insights)
 - [ADX Monitoring Data](https://learn.microsoft.com/en-us/azure/data-explorer/monitor-data-explorer-reference) 
