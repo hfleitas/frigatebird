@@ -12,6 +12,11 @@ BehaviorAnalytics
 | where TimeGenerated >= ago(1h)
 | take 10
 
+// if target is yet empty, check if raw has records. 
+BehaviorAnalyticsRaw
+| where TimeGenerated >= ago(1h)
+| take 10
+
 // verify count of columns are the same in LAW vs ADX. 
 BehaviorAnalytics
 | where TimeGenerated >= ago(1h)
