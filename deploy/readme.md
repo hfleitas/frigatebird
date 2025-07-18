@@ -5,6 +5,8 @@ These are automation scripts to deploy the long-term retention strategy for logs
 
 - [Migrate-LA-to-ADX.ps1](https://github.com/Azure/Azure-Sentinel/blob/master/Tools/AzureDataExplorer/Migrate-LA-to-ADX.ps1) -> Commercial version from Sentinel team.
 - [ILZ_Migrate-LA-to-ADX-working.ps1](ILZ_Migrate-LA-to-ADX-working.ps1) -> This is what we used for deployement, adjusted for Gov cloud and requirements.
+- [ADX-Log-Retention-Automation](https://github.com/kfriede/ADX-Log-Retention-Automation) -> This version is built by the MS Gov Team but does not account for high through-put and scaling
+- requirements. 
   
 ## Key Differences
 
