@@ -1,8 +1,10 @@
 # Migrate LA to ADX
 
-## References
-- [Migrate-LA-to-ADX.ps1](https://github.com/Azure/Azure-Sentinel/blob/master/Tools/AzureDataExplorer/Migrate-LA-to-ADX.ps1)
-- [ILZ_Migrate-LA-to-ADX-working.ps1](ILZ_Migrate-LA-to-ADX-working.ps1)
+## Description
+These are automation scripts to deploy the long-term retention strategy for logs in Sentinel into Azure Data Explorer (ADX).
+
+- [Migrate-LA-to-ADX.ps1](https://github.com/Azure/Azure-Sentinel/blob/master/Tools/AzureDataExplorer/Migrate-LA-to-ADX.ps1) -> Commercial version from Sentinel team.
+- [ILZ_Migrate-LA-to-ADX-working.ps1](ILZ_Migrate-LA-to-ADX-working.ps1) -> This is what we used for deployement, adjusted for Gov cloud and requirements.
   
 ## Key Differences
 
