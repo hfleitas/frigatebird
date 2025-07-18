@@ -370,6 +370,7 @@ function New-AdxRawMappingTables {
         }
         else {
             $TableName = $table
+            Write-Host $table
         }
 
         $TableName = $TableName.ToString().Trim() # table name clean up
@@ -448,7 +449,7 @@ function New-AdxRawMappingTables {
             $schema = ($FirstCommand -join '') -replace ',$'
             $function = ($ThirdCommand -join '') -replace ',$'
 
-            $CreateRawTable = '.create table {0} (Records:dynamic)' -f $TableRaw
+            $CreateRawTable = '.create table {0} (Records:dynamic) with (folder="Raw")' -f $TableRaw
 
             $CreateRawMapping = @'
 .create table {0} ingestion json mapping '{1}' '[{{"column":"Records","Properties":{{"path":"$.records"}}}}]'
@@ -458,12 +459,12 @@ function New-AdxRawMappingTables {
  #retention changed per architecture requirements
             $CreateRawCaching = '.alter table {0} policy caching hot = 1d' -f $TableRaw #caching changed per architecture requirements
 
-            $CreateTable = '.create table {0} ({1})' -f $TableName, $schema
+            $CreateTable = '.create table {0} ({1}) with (folder="Sentinel")' -f $TableName, $schema
             $CreateTableCaching = '.alter table {0} policy caching hot = 365d' -f $TableName #caching changed per architecture requirements $followup with 33rd 90? 0?
 
             
             $CreateFunction = @'
-.create-or-alter function {0} {{{1} | mv-expand events = Records | project {2} }}
+.create-or-alter function with (folder="Raw") {0} {{{1} | mv-expand events = Records | project {2} }}
 '@ -f $TableExpandFunction, $TableRaw, $function
 
             $CreatePolicyUpdate = @'
@@ -514,10 +515,10 @@ function New-EventHubNamespace {
         foreach ($slicedArray in $ArraysObject) {
             if ($slicedArray.Length -gt 0) {
                 #Create Event Hub NameSpace
-                #$randomNumber = Get-Random #find different naming schema
-                #$EventHubNamespaceName = "$($LogAnalyticsWorkspaceName)-$($randomNumber)"
-                $tableName = $slicedArray
-                $EventHubNamespaceName = "$($AdxDBName)-$($tableName)" # Only works for 1:1 architecture
+                $randomNumber = Get-Random #find different naming schema
+                $EventHubNamespaceName = "$($LogAnalyticsWorkspaceName)-$($randomNumber)"
+                #$tableName = $slicedArray
+                #$EventHubNamespaceName = "$($AdxDBName)-$($tableName)" # Only works for 1:1 architecture
                 $EventHubsArray += $EventHubNamespaceName
                 
                 Write-Verbose "Executing: New-AzEventHubNamespace -ResourceGroupName $AdxResourceGroup -Name $EventHubNamespaceName `
@@ -582,15 +583,24 @@ function New-LaDataExportRule {
     Write-Log -Message "Creating Log Analytics data export rules" -LogFileName $LogFileName -Severity Information
 
     try {
+        $Count = 0
         foreach ($AdxEventHub in $AdxEventHubs) {
-            $tableName = $($AdxEventHub -split "-")[-1] # Only works in a 1:1 architecture
-            Write-Verbose "Executing: Get-AzEventHubNamespace -ResourceGroupName $AdxResourceGroup -NamespaceName $AdxEventHub"
+            #$tableName = $($AdxEventHub -split "-")[-1] # Only works in a 1:1 architecture
+            #Write-Verbose "Executing: Get-AzEventHubNamespace -ResourceGroupName $AdxResourceGroup -NamespaceName $AdxEventHub"
             $EventHubNameSpace = Get-AzEventHubNamespace -ResourceGroupName $AdxResourceGroup -NamespaceName $AdxEventHub
+            if ($AdxEventHubs.Count -gt 1) {
+                $ExportRuleTables = '"{0}"' -f ($TablesArrayCollection[$count] -join '","')
+            }
+            else {
+                $ExportRuleTables = '"{0}"' -f ($TablesArrayCollection -join '","')
+            }
+            $filteredExportRuleTables = $ExportRuleTables | Where-Object { $_ -and $_.Trim() }
+            Write-Host $filteredExportRuleTables
 
             if ($EventHubNameSpace.ProvisioningState -eq "Succeeded") {
-                # $RandomSuffix = Get-RandomSuffix
-                # $LaDataExportRuleName = "$($LogAnalyticsWorkspaceName)-$($RandomSuffix)"
-                $LaDataExportRuleName = "ilz-sentinel-adx-exp-$tableName"
+                $RandomNumber = Get-Random
+                $LaDataExportRuleName = "$($LogAnalyticsWorkspaceName)-$($RandomNumber)"
+               #$LaDataExportRuleName = "ilz-sentinel-adx-exp-$tableName"
                 $DataExportAPI = "$($az.resourceManager)subscriptions/$SubscriptionId/resourcegroups/$LogAnalyticsResourceGroup/providers/Microsoft.operationalInsights/workspaces/$LogAnalyticsWorkspaceName/dataexports/$laDataExportRuleName" + "?api-version=2020-08-01"
             
                 $AzureAccessTokenSecure = (Get-AzAccessToken -ResourceUrl $az.resourceManager).Token
@@ -610,7 +620,7 @@ function New-LaDataExportRule {
         "destination": {
         "resourceId": "$($EventHubNameSpace.Id)"
         },
-        "tablenames": ["$tableName"],
+        "tablenames": [$ExportRuleTables],
         "enable": true
     }
 }
@@ -811,6 +821,7 @@ else {
         Write-Host "`nEnter selected Log Analytics workspace table names separated by comma (,) (Case-Sensitive)" -ForegroundColor Blue
         $UserInputTables = Read-Host 
         $ResultsAllTables = $UserInputTables.Split(',')
+        #Write-Host $ResultsAllTables
     }
     catch {
         Write-Log -Message "Incorrect user input! Table names must be separated by comma (,)" -LogFileName $LogFileName -Severity Error       
@@ -835,7 +846,7 @@ if ($CreateOrUpdateQuestionDecision -eq 1) {
 
     if ($AdxTablesArray.ToArray().Count -gt 0) {      
 
-        $AdxMappedTables = Split-ArrayBySize -AdxTabsArray $AdxTablesArray.ToArray() -ArraySize 1 # TODO clean up the logic for 1:1 architecture
+        $AdxMappedTables = Split-ArrayBySize -AdxTabsArray $AdxTablesArray.ToArray() -ArraySize 21 # TODO clean up the logic for 1:1 architecture | REMOVED
         
         Write-Verbose "Executing: New-EventHubNamespace -ArraysObject $AdxMappedTables" 
         $EventHubsForADX = New-EventHubNamespace -ArraysObject $AdxMappedTables
@@ -853,14 +864,14 @@ if ($CreateOrUpdateQuestionDecision -eq 1) {
 
     #region ADXDataConnectionRule
     $DataConnectionQuestion = "Do you want to create data connection rules in $AdxDBName for each table with corresponding Event Hub topic, TableRaw and TableRawMappings? `
-                            If Yes, the script will wait for 30 minutes, If No, you must create the data connection rules manually."
+                            If Yes, the script will wait for 40 minutes, If No, you must create the data connection rules manually."
     $DataConnectionQuestionChoices = New-Object Collections.ObjectModel.Collection[Management.Automation.Host.ChoiceDescription]
     $DataConnectionQuestionChoices.Add((New-Object Management.Automation.Host.ChoiceDescription -ArgumentList '&Yes'))
     $DataConnectionQuestionChoices.Add((New-Object Management.Automation.Host.ChoiceDescription -ArgumentList '&No'))
 
     $DataConnectionQuestionDecision = $Host.UI.PromptForChoice($title, $DataConnectionQuestion, $DataConnectionQuestionChoices, 0)
     if ($DataConnectionQuestionDecision -eq 0) {
-        Start-SleepMessage -Seconds 1800 -waitMessage "Provisioning Event Hub topics for Log Analytics tables"                    
+        Start-SleepMessage -Seconds 2400 -waitMessage "Provisioning Event Hub topics for Log Analytics tables"                    
         New-ADXDataConnectionRules -AdxEventHubs $EventHubsForADX
     }
     else {            
