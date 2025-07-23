@@ -1,0 +1,72 @@
+.set mytable <| database("<mydatabase>").mytable | limit 0
+
+.show table ['mytable']ingestion csv mappings
+
+['mytable']
+| take 10
+.create table mytable ingestion json  mapping "mytable_csv_mapping" [
+    {"Name":"priority","DataType":"int","Ordinal":"1"},
+    {"Name":"severity","DataType":"int","Ordinal":"2"},
+    {"Name":"facility","DataType":"int","Ordinal":"3"},
+    {"Name":"version","DataType":"int","Ordinal":"4"},
+    {"Name":"timestamp","DataType":"datetime","Ordinal":"5"},
+    {"Name":"hostname","DataType":"string","Ordinal":"6"},
+    {"Name":"body","DataType":"string","Ordinal":"7"},
+    {"Name":"_raw","DataType":"string","Ordinal":"8"}
+]
+
+.show table mytable kqlschema
+
+
+.create table mytableRaw (
+    Records: dynamic
+)
+
+
+['mytable']
+| getschema
+
+
+.alter table MyyTableRaw with (folder="Raw")
+
+.show table ['MyTable'] ingestion mappings
+
+//name: MyTable_csv_mapping
+//kind: Csv
+//Mapping: [{"Name":"priority","DataType":"int","Ordinal":"1"},{"Name":"severity","DataType":"int","Ordinal":"2"},{"Name":"facility","DataType":"int","Ordinal":"3"},{"Name":"version","DataType":"int","Ordinal":"4"},{"Name":"timestamp","DataType":"datetime","Ordinal":"5"},{"Name":"hostname","DataType":"string","Ordinal":"6"},{"Name":"body","DataType":"string","Ordinal":"7"},{"Name":"_raw","DataType":"string","Ordinal":"8"}]
+
+.show table MyTable policy update
+
+['MyTableRaw']
+| getschema
+
+.rename table ['MyTable_Raw']to MyTableRaw
+
+MyTableRaw
+| getschema
+
+.create table MyTableRaw ingestion json mapping "MyTableRaw_json_mapping"
+```
+[
+    {"Column": "Records", "Properties": {"Path": "$"}}
+]
+```
+
+print current_cluster_endpoint(), current_database()
+//
+
+#connect cluster('<clustername>.kusto.usgovcloudapi.net').database('<databasename>')
+
+//validation after modifying agent
+MyTableRaw //total records
+| count
+
+MyTableRaw //rate of ingestion
+| summarize count() by bin(ingestion_time(),5m)
+
+.show ingestion failures //run if number is 0
+| where Table == "MyTableRaw"
+| where FailedOn >= ago(1h)
+
+MyTableRaw
+| take 10
