@@ -1,0 +1,16 @@
+{
+    "name": "07_REST_DeviceTvmBrowserExtensions",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "TVM_LinkedService",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "RestResource",
+        "typeProperties": {
+            "relativeUrl": "https://api.securitycenter.microsoft.com/api/Machines/BrowserExtensionsInventoryByMachine"
+        },
+        "schema": []
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,16 @@
+{
+    "name": "04_REST_DeviceBaselineComplianceProfiles",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "TVM_LinkedService",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "RestResource",
+        "typeProperties": {
+            "relativeUrl": "https://api.securitycenter.microsoft.com/api/baselineProfiles"
+        },
+        "schema": []
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

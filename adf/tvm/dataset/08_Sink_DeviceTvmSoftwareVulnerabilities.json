@@ -1,0 +1,16 @@
+{
+    "name": "08_Sink_DeviceTvmSoftwareVulnerabilities",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "ADX_LinkedService",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureDataExplorerTable",
+        "schema": [],
+        "typeProperties": {
+            "table": "DeviceTvmSoftwareVulnerabilities"
+        }
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

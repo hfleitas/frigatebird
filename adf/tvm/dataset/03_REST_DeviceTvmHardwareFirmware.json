@@ -1,0 +1,16 @@
+{
+    "name": "03_REST_DeviceTvmHardwareFirmware",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "TVM_LinkedService",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "RestResource",
+        "typeProperties": {
+            "relativeUrl": "https://api.securitycenter.microsoft.com/api/machines/HardwareFirmwareInventoryByMachine"
+        },
+        "schema": []
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

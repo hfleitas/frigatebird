@@ -1,0 +1,69 @@
+{
+    "name": "07_Sink_DeviceTvmBrowserExtensions",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "ADX_LinkedService",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureDataExplorerTable",
+        "schema": [
+            {
+                "name": "TimeGenerated",
+                "type": "datetime"
+            },
+            {
+                "name": "deviceId",
+                "type": "string"
+            },
+            {
+                "name": "rbacGroupId",
+                "type": "int"
+            },
+            {
+                "name": "rbacGroupName",
+                "type": "string"
+            },
+            {
+                "name": "installationTime",
+                "type": "datetime"
+            },
+            {
+                "name": "browserName",
+                "type": "string"
+            },
+            {
+                "name": "extensionId",
+                "type": "string"
+            },
+            {
+                "name": "extensionName",
+                "type": "string"
+            },
+            {
+                "name": "extensionDescription",
+                "type": "string"
+            },
+            {
+                "name": "extensionVersion",
+                "type": "string"
+            },
+            {
+                "name": "extensionRisk",
+                "type": "string"
+            },
+            {
+                "name": "extensionVendor",
+                "type": "string"
+            },
+            {
+                "name": "isActivated",
+                "type": "bool"
+            }
+        ],
+        "typeProperties": {
+            "table": "DeviceTvmBrowserExtensions"
+        }
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

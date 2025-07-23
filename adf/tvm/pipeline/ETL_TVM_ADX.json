@@ -1,0 +1,1710 @@
+{
+    "name": "ETL_TVM_ADX",
+    "properties": {
+        "activities": [
+            {
+                "name": "01_DeviceTvmSoftwareInventory",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "RestSource",
+                        "additionalColumns": [
+                            {
+                                "name": "UTC",
+                                "value": {
+                                    "value": "@utcNow()",
+                                    "type": "Expression"
+                                }
+                            }
+                        ],
+                        "httpRequestTimeout": "00:01:40",
+                        "requestInterval": "00.00:00:00.010",
+                        "requestMethod": "GET",
+                        "paginationRules": {
+                            "AbsoluteUrl": "$['@Odata.nextLink']"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureDataExplorerSink"
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "mappings": [
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceId']"
+                                },
+                                "sink": {
+                                    "name": "deviceId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupId']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupId",
+                                    "type": "Int32"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupName']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceName']"
+                                },
+                                "sink": {
+                                    "name": "deviceName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['osPlatform']"
+                                },
+                                "sink": {
+                                    "name": "osPlatform",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['softwareVendor']"
+                                },
+                                "sink": {
+                                    "name": "softwareVendor",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['softwareName']"
+                                },
+                                "sink": {
+                                    "name": "softwareName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['softwareVersion']"
+                                },
+                                "sink": {
+                                    "name": "softwareVersion",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['numberOfWeaknesses']"
+                                },
+                                "sink": {
+                                    "name": "numberOfWeaknesses",
+                                    "type": "Int32"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['diskPaths'][0]"
+                                },
+                                "sink": {
+                                    "name": "diskPaths",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['registryPaths'][0]"
+                                },
+                                "sink": {
+                                    "name": "registryPaths",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['softwareFirstSeenTimestamp']"
+                                },
+                                "sink": {
+                                    "name": "softwareFirstSeenTimestamp",
+                                    "type": "DateTime"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['endOfSupportStatus']"
+                                },
+                                "sink": {
+                                    "name": "endOfSupportStatus",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['endOfSupportDate']"
+                                },
+                                "sink": {
+                                    "name": "endOfSupportDate",
+                                    "type": "DateTime"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['UTC']"
+                                },
+                                "sink": {
+                                    "name": "TimeGenerated",
+                                    "type": "DateTime"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "01_REST_DeviceTvmSoftwareInventory",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "01_Sink_DeviceTvmSoftwareInventory",
+                        "type": "DatasetReference"
+                    }
+                ]
+            },
+            {
+                "name": "02_DeviceTvmSecureConfigurationAssessment",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "RestSource",
+                        "additionalColumns": [
+                            {
+                                "name": "UTC",
+                                "value": {
+                                    "value": "@utcNow()",
+                                    "type": "Expression"
+                                }
+                            }
+                        ],
+                        "httpRequestTimeout": "00:01:40",
+                        "requestInterval": "00.00:00:00.010",
+                        "requestMethod": "GET",
+                        "paginationRules": {
+                            "AbsoluteUrl": "$['@Odata.nextLink']"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureDataExplorerSink"
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "mappings": [
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceId']"
+                                },
+                                "sink": {
+                                    "name": "deviceId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupId']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupId",
+                                    "type": "Int32"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupName']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceName']"
+                                },
+                                "sink": {
+                                    "name": "deviceName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['osPlatform']"
+                                },
+                                "sink": {
+                                    "name": "osPlatform",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['osVersion']"
+                                },
+                                "sink": {
+                                    "name": "osVersion",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['timestamp']"
+                                },
+                                "sink": {
+                                    "name": "timestamp",
+                                    "type": "DateTime"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['configurationId']"
+                                },
+                                "sink": {
+                                    "name": "configurationId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['configurationCategory']"
+                                },
+                                "sink": {
+                                    "name": "configurationCategory",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['configurationSubcategory']"
+                                },
+                                "sink": {
+                                    "name": "configurationSubcategory",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['configurationImpact']"
+                                },
+                                "sink": {
+                                    "name": "configurationImpact",
+                                    "type": "Double"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['isCompliant']"
+                                },
+                                "sink": {
+                                    "name": "isCompliant",
+                                    "type": "Boolean"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['isApplicable']"
+                                },
+                                "sink": {
+                                    "name": "isApplicable",
+                                    "type": "Boolean"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['isExpectedUserImpact']"
+                                },
+                                "sink": {
+                                    "name": "isExpectedUserImpact",
+                                    "type": "Boolean"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['configurationName']"
+                                },
+                                "sink": {
+                                    "name": "configurationName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['recommendationReference']"
+                                },
+                                "sink": {
+                                    "name": "recommendationReference",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['UTC']"
+                                },
+                                "sink": {
+                                    "name": "TimeGenerated",
+                                    "type": "DateTime"
+                                }
+                            }
+                        ],
+                        "collectionReference": ""
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "02_REST_DeviceTvmSecureConfigurationAssessment",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "02_Sink_DeviceTvmSecureConfigurationAssessment",
+                        "type": "DatasetReference"
+                    }
+                ]
+            },
+            {
+                "name": "03_DeviceTvmHardwareFirmware",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "RestSource",
+                        "additionalColumns": [
+                            {
+                                "name": "UTC",
+                                "value": {
+                                    "value": "@utcNow()",
+                                    "type": "Expression"
+                                }
+                            }
+                        ],
+                        "httpRequestTimeout": "00:01:40",
+                        "requestInterval": "00.00:00:00.010",
+                        "requestMethod": "GET",
+                        "paginationRules": {
+                            "AbsoluteUrl": "$['@Odata.nextLink']"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureDataExplorerSink"
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "mappings": [
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceId']"
+                                },
+                                "sink": {
+                                    "name": "deviceId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupId']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupId",
+                                    "type": "Int32"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupName']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceName']"
+                                },
+                                "sink": {
+                                    "name": "deviceName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['componentType']"
+                                },
+                                "sink": {
+                                    "name": "componentType",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['manufacturer']"
+                                },
+                                "sink": {
+                                    "name": "manufacturer",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['componentName']"
+                                },
+                                "sink": {
+                                    "name": "componentName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['componentVersion']"
+                                },
+                                "sink": {
+                                    "name": "componentVersion",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['additionalFields']"
+                                },
+                                "sink": {
+                                    "name": "additionalFields",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['UTC']"
+                                },
+                                "sink": {
+                                    "name": "TimeGenerated",
+                                    "type": "DateTime"
+                                }
+                            }
+                        ],
+                        "collectionReference": ""
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "03_REST_DeviceTvmHardwareFirmware",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "03_Sink_DeviceTvmHardwareFirmware",
+                        "type": "DatasetReference"
+                    }
+                ]
+            },
+            {
+                "name": "04_DeviceBaselineComplianceProfiles",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "RestSource",
+                        "additionalColumns": [
+                            {
+                                "name": "UTC",
+                                "value": {
+                                    "value": "@utcNow()",
+                                    "type": "Expression"
+                                }
+                            }
+                        ],
+                        "httpRequestTimeout": "00:01:40",
+                        "requestInterval": "00.00:00:00.010",
+                        "requestMethod": "GET",
+                        "paginationRules": {
+                            "AbsoluteUrl": "$['@Odata.nextLink']"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureDataExplorerSink"
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "mappings": [
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['id']"
+                                },
+                                "sink": {
+                                    "name": "id",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['name']"
+                                },
+                                "sink": {
+                                    "name": "name",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['description']"
+                                },
+                                "sink": {
+                                    "name": "description",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['benchmark']"
+                                },
+                                "sink": {
+                                    "name": "benchmark",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['version']"
+                                },
+                                "sink": {
+                                    "name": "version",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['operatingSystem']"
+                                },
+                                "sink": {
+                                    "name": "operatingSystem",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['operatingSystemVersion']"
+                                },
+                                "sink": {
+                                    "name": "operatingSystemVersion",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['status']"
+                                },
+                                "sink": {
+                                    "name": "status",
+                                    "type": "Boolean"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['complianceLevel']"
+                                },
+                                "sink": {
+                                    "name": "complianceLevel",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['settingsNumber']"
+                                },
+                                "sink": {
+                                    "name": "settingsNumber",
+                                    "type": "Int32"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['createdBy']"
+                                },
+                                "sink": {
+                                    "name": "createdBy",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['lastUpdatedBy']"
+                                },
+                                "sink": {
+                                    "name": "lastUpdatedBy",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['createdOnTimeOffset']"
+                                },
+                                "sink": {
+                                    "name": "createdOnTimeOffset",
+                                    "type": "DateTime"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['lastUpdateTimeOffset']"
+                                },
+                                "sink": {
+                                    "name": "lastUpdateTimeOffset",
+                                    "type": "DateTime"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['passedDevices']"
+                                },
+                                "sink": {
+                                    "name": "passedDevices",
+                                    "type": "Int32"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['totalDevices']"
+                                },
+                                "sink": {
+                                    "name": "totalDevices",
+                                    "type": "Int32"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupIdsProfileScope'][0]"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupIdsProfileScope",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupNamesProfileScope'][0]"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupNamesProfileScope",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceTagsProfileScope'][0]"
+                                },
+                                "sink": {
+                                    "name": "deviceTagsProfileScope",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['UTC']"
+                                },
+                                "sink": {
+                                    "name": "TimeGenerated",
+                                    "type": "DateTime"
+                                }
+                            }
+                        ],
+                        "collectionReference": ""
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "04_REST_DeviceBaselineComplianceProfiles",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "04_Sink_DeviceBaselineComplianceProfiles",
+                        "type": "DatasetReference"
+                    }
+                ]
+            },
+            {
+                "name": "05_DeviceBaselineComplianceAssessmentKB",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "RestSource",
+                        "additionalColumns": [
+                            {
+                                "name": "UTC",
+                                "value": {
+                                    "value": "@utcNow()",
+                                    "type": "Expression"
+                                }
+                            }
+                        ],
+                        "httpRequestTimeout": "00:01:40",
+                        "requestInterval": "00.00:00:00.010",
+                        "requestMethod": "GET",
+                        "paginationRules": {
+                            "AbsoluteUrl": "$['@Odata.nextLink']"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureDataExplorerSink"
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "mappings": [
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['id']"
+                                },
+                                "sink": {
+                                    "name": "id",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['uniqueId']"
+                                },
+                                "sink": {
+                                    "name": "uniqueId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['benchmarkName']"
+                                },
+                                "sink": {
+                                    "name": "benchmarkName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['benchmarkVersion']"
+                                },
+                                "sink": {
+                                    "name": "benchmarkVersion",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['name']"
+                                },
+                                "sink": {
+                                    "name": "name",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['description']"
+                                },
+                                "sink": {
+                                    "name": "description",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['category']"
+                                },
+                                "sink": {
+                                    "name": "category",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['complianceLevels'][0]"
+                                },
+                                "sink": {
+                                    "name": "complianceLevels",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['cce']"
+                                },
+                                "sink": {
+                                    "name": "cce",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rationale']"
+                                },
+                                "sink": {
+                                    "name": "rationale",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['remediation']"
+                                },
+                                "sink": {
+                                    "name": "remediation",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['recommendedValue'][0]"
+                                },
+                                "sink": {
+                                    "name": "recommendedValue",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['source'][0]"
+                                },
+                                "sink": {
+                                    "name": "source",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['isCustom']"
+                                },
+                                "sink": {
+                                    "name": "isCustom",
+                                    "type": "Boolean"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['UTC']"
+                                },
+                                "sink": {
+                                    "name": "TimeGenerated",
+                                    "type": "DateTime"
+                                }
+                            }
+                        ],
+                        "collectionReference": ""
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "05_REST_DeviceBaselineComplianceAssessmentKB",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "05_Sink_DeviceBaselineComplianceAssessmentKB",
+                        "type": "DatasetReference"
+                    }
+                ]
+            },
+            {
+                "name": "06_DeviceBaselineComplianceAssessment",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "RestSource",
+                        "additionalColumns": [
+                            {
+                                "name": "UTC",
+                                "value": {
+                                    "value": "@utcNow()",
+                                    "type": "Expression"
+                                }
+                            }
+                        ],
+                        "httpRequestTimeout": "00:01:40",
+                        "requestInterval": "00.00:00:00.010",
+                        "requestMethod": "GET",
+                        "paginationRules": {
+                            "AbsoluteUrl": "$['@Odata.nextLink']"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureDataExplorerSink"
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "mappings": [
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['id']"
+                                },
+                                "sink": {
+                                    "name": "id",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['configurationId']"
+                                },
+                                "sink": {
+                                    "name": "configurationId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceId']"
+                                },
+                                "sink": {
+                                    "name": "deviceId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceName']"
+                                },
+                                "sink": {
+                                    "name": "deviceName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['profileId']"
+                                },
+                                "sink": {
+                                    "name": "profileId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['osPlatform']"
+                                },
+                                "sink": {
+                                    "name": "osPlatform",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['osVersion']"
+                                },
+                                "sink": {
+                                    "name": "osVersion",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupId']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupId",
+                                    "type": "Int32"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupName']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['isApplicable']"
+                                },
+                                "sink": {
+                                    "name": "isApplicable",
+                                    "type": "Boolean"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['isCompliant']"
+                                },
+                                "sink": {
+                                    "name": "isCompliant",
+                                    "type": "Boolean"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['dataCollectionTimeOffset']"
+                                },
+                                "sink": {
+                                    "name": "dataCollectionTimeOffset",
+                                    "type": "DateTime"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['complianceCalculationTimeOffset']"
+                                },
+                                "sink": {
+                                    "name": "complianceCalculationTimeOffset",
+                                    "type": "DateTime"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['recommendedValue'][0]"
+                                },
+                                "sink": {
+                                    "name": "recommendedValue",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['currentValue'][0]"
+                                },
+                                "sink": {
+                                    "name": "currentValue",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['source'][0]"
+                                },
+                                "sink": {
+                                    "name": "source",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['isExempt']"
+                                },
+                                "sink": {
+                                    "name": "isExempt",
+                                    "type": "Boolean"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['UTC']"
+                                },
+                                "sink": {
+                                    "name": "TimeGenerated",
+                                    "type": "DateTime"
+                                }
+                            }
+                        ],
+                        "collectionReference": ""
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "06_REST_DeviceBaselineComplianceAssessment",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "06_Sink_DeviceBaselineComplianceAssessment",
+                        "type": "DatasetReference"
+                    }
+                ]
+            },
+            {
+                "name": "07_DeviceTvmBrowserExtensions",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "RestSource",
+                        "additionalColumns": [
+                            {
+                                "name": "UTC",
+                                "value": {
+                                    "value": "@utcNow()",
+                                    "type": "Expression"
+                                }
+                            }
+                        ],
+                        "httpRequestTimeout": "00:01:40",
+                        "requestInterval": "00.00:00:00.010",
+                        "requestMethod": "GET",
+                        "paginationRules": {
+                            "AbsoluteUrl": "$['@Odata.nextLink']"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureDataExplorerSink"
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "mappings": [
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceId']"
+                                },
+                                "sink": {
+                                    "name": "deviceId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupId']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupId",
+                                    "type": "Int32"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupName']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['installationTime']"
+                                },
+                                "sink": {
+                                    "name": "installationTime",
+                                    "type": "DateTime"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['browserName']"
+                                },
+                                "sink": {
+                                    "name": "browserName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['extensionId']"
+                                },
+                                "sink": {
+                                    "name": "extensionId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['extensionName']"
+                                },
+                                "sink": {
+                                    "name": "extensionName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['extensionDescription']"
+                                },
+                                "sink": {
+                                    "name": "extensionDescription",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['extensionVersion']"
+                                },
+                                "sink": {
+                                    "name": "extensionVersion",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['extensionRisk']"
+                                },
+                                "sink": {
+                                    "name": "extensionRisk",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['extensionVendor']"
+                                },
+                                "sink": {
+                                    "name": "extensionVendor",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['isActivated']"
+                                },
+                                "sink": {
+                                    "name": "isActivated",
+                                    "type": "Boolean"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['UTC']"
+                                },
+                                "sink": {
+                                    "name": "TimeGenerated",
+                                    "type": "DateTime"
+                                }
+                            }
+                        ],
+                        "collectionReference": ""
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "07_REST_DeviceTvmBrowserExtensions",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "07_Sink_DeviceTvmBrowserExtensions",
+                        "type": "DatasetReference"
+                    }
+                ]
+            },
+            {
+                "name": "08_DeviceTvmSoftwareVulnerabilities",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "RestSource",
+                        "additionalColumns": [
+                            {
+                                "name": "UTC",
+                                "value": {
+                                    "value": "@utcNow()",
+                                    "type": "Expression"
+                                }
+                            }
+                        ],
+                        "httpRequestTimeout": "00:01:40",
+                        "requestInterval": "00.00:00:00.010",
+                        "requestMethod": "GET",
+                        "paginationRules": {
+                            "AbsoluteUrl": "$['@Odata.nextLink']"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureDataExplorerSink"
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "mappings": [
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['id']"
+                                },
+                                "sink": {
+                                    "name": "id",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['cveId']"
+                                },
+                                "sink": {
+                                    "name": "cveId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['machineId']"
+                                },
+                                "sink": {
+                                    "name": "machineId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['fixingKbId']"
+                                },
+                                "sink": {
+                                    "name": "fixingKbId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['productName']"
+                                },
+                                "sink": {
+                                    "name": "productName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['productVendor']"
+                                },
+                                "sink": {
+                                    "name": "productVendor",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['productVersion']"
+                                },
+                                "sink": {
+                                    "name": "productVersion",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['severity']"
+                                },
+                                "sink": {
+                                    "name": "severity",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['UTC']"
+                                },
+                                "sink": {
+                                    "name": "TimeGenerated",
+                                    "type": "DateTime"
+                                }
+                            }
+                        ],
+                        "collectionReference": ""
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "08_REST_DeviceTvmSoftwareVulnerabilities",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "08_Sink_DeviceTvmSoftwareVulnerabilities",
+                        "type": "DatasetReference"
+                    }
+                ]
+            },
+            {
+                "name": "09_DeviceTvmCertificateInfo",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "RestSource",
+                        "additionalColumns": [
+                            {
+                                "name": "UTC",
+                                "value": {
+                                    "value": "@utcNow()",
+                                    "type": "Expression"
+                                }
+                            }
+                        ],
+                        "httpRequestTimeout": "00:01:40",
+                        "requestInterval": "00.00:00:00.010",
+                        "requestMethod": "GET",
+                        "paginationRules": {
+                            "AbsoluteUrl": "$['@Odata.nextLink']"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureDataExplorerSink"
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "mappings": [
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceId']"
+                                },
+                                "sink": {
+                                    "name": "deviceId",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['deviceName']"
+                                },
+                                "sink": {
+                                    "name": "deviceName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['thumbprint']"
+                                },
+                                "sink": {
+                                    "name": "thumbprint",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['path']"
+                                },
+                                "sink": {
+                                    "name": "path",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['signatureAlgorithm']"
+                                },
+                                "sink": {
+                                    "name": "signatureAlgorithm",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['keySize']"
+                                },
+                                "sink": {
+                                    "name": "keySize",
+                                    "type": "Int32"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['expirationDate']"
+                                },
+                                "sink": {
+                                    "name": "expirationDate",
+                                    "type": "DateTime"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['issueDate']"
+                                },
+                                "sink": {
+                                    "name": "issueDate",
+                                    "type": "DateTime"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['subjectType']"
+                                },
+                                "sink": {
+                                    "name": "subjectType",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['serialNumber']"
+                                },
+                                "sink": {
+                                    "name": "serialNumber",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['issuedTo']"
+                                },
+                                "sink": {
+                                    "name": "issuedTo",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['issuedBy']"
+                                },
+                                "sink": {
+                                    "name": "issuedBy",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['keyUsage']"
+                                },
+                                "sink": {
+                                    "name": "keyUsage",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['extendedKeyUsage']"
+                                },
+                                "sink": {
+                                    "name": "extendedKeyUsage",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupId']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupId",
+                                    "type": "Int32"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['value'][0]['rbacGroupName']"
+                                },
+                                "sink": {
+                                    "name": "rbacGroupName",
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "path": "$['UTC']"
+                                },
+                                "sink": {
+                                    "name": "TimeGenerated",
+                                    "type": "DateTime"
+                                }
+                            }
+                        ],
+                        "collectionReference": ""
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "09_REST_DeviceTvmCertificateInfo",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "09_Sink_DeviceTvmCertificateInfo",
+                        "type": "DatasetReference"
+                    }
+                ]
+            }
+        ],
+        "annotations": [],
+        "lastPublishTime": "2025-01-13T16:52:03Z"
+    },
+    "type": "Microsoft.DataFactory/factories/pipelines"
+}

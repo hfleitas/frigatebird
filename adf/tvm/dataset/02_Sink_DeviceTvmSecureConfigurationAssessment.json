@@ -1,0 +1,16 @@
+{
+    "name": "02_Sink_DeviceTvmSecureConfigurationAssessment",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "ADX_LinkedService",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureDataExplorerTable",
+        "schema": [],
+        "typeProperties": {
+            "table": "DeviceTvmSecureConfigurationAssessment"
+        }
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

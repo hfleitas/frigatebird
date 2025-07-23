@@ -1,0 +1,13 @@
+{
+    "name": "ADX_LinkedService",
+    "type": "Microsoft.DataFactory/factories/linkedservices",
+    "properties": {
+        "description": "ADX Linked ",
+        "annotations": [],
+        "type": "AzureDataExplorer",
+        "typeProperties": {
+            "endpoint": "https://CLUSTERNAME.REGION.kusto.windows.net",
+            "database": "ADX DataBase"
+        }
+    }
+}

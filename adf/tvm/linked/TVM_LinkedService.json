@@ -1,0 +1,14 @@
+{
+    "name": "TVM_LinkedService",
+    "type": "Microsoft.DataFactory/factories/linkedservices",
+    "properties": {
+        "annotations": [],
+        "type": "RestService",
+        "typeProperties": {
+            "url": "https://api.securitycenter.microsoft.com/api/",
+            "enableServerCertificateValidation": true,
+            "authenticationType": "ManagedServiceIdentity",
+            "aadResourceId": "https://api.securitycenter.microsoft.com"
+        }
+    }
+}

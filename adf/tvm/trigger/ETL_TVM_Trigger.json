@@ -1,0 +1,24 @@
+{
+    "name": "ETL_TVM_Trigger",
+    "properties": {
+        "annotations": [],
+        "runtimeState": "Started",
+        "pipelines": [
+            {
+                "pipelineReference": {
+                    "referenceName": "ETL_TVM_ADX",
+                    "type": "PipelineReference"
+                }
+            }
+        ],
+        "type": "ScheduleTrigger",
+        "typeProperties": {
+            "recurrence": {
+                "frequency": "Hour",
+                "interval": 24,
+                "startTime": "2024-11-18T14:47:00",
+                "timeZone": "Eastern Standard Time"
+            }
+        }
+    }
+}

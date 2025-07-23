@@ -1,0 +1,16 @@
+{
+    "name": "04_Sink_DeviceBaselineComplianceProfiles",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "ADX_LinkedService",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureDataExplorerTable",
+        "schema": [],
+        "typeProperties": {
+            "table": "DeviceBaselineComplianceProfiles"
+        }
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

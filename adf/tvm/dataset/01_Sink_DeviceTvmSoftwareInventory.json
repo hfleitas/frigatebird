@@ -1,0 +1,16 @@
+{
+    "name": "01_Sink_DeviceTvmSoftwareInventory",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "ADX_LinkedService",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureDataExplorerTable",
+        "schema": [],
+        "typeProperties": {
+            "table": "DeviceTvmSoftwareInventory"
+        }
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

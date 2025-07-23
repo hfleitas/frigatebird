@@ -1,0 +1,16 @@
+{
+    "name": "03_Sink_DeviceTvmHardwareFirmware",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "ADX_LinkedService",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureDataExplorerTable",
+        "schema": [],
+        "typeProperties": {
+            "table": "DeviceTvmHardwareFirmware"
+        }
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}
