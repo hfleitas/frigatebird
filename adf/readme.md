@@ -6,3 +6,13 @@ This folder contains an ADF pipeline for copying a set of tables from Microsoft 
 - Lower frequency
 - Increase data freshnes
 - Scripted approach instead of latent scheduled pipeline batching.
+
+## Links
+- https://security.microsoft.com
+- https://learn.microsoft.com/en-us/defender-xdr/api-hello-world
+- https://learn.microsoft.com/en-us/defender-endpoint/api/run-advanced-query-api#limitations
+- https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicetvmbrowserextensions-table
+- https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-best-practices
+- https://admin.microsoft.com
+- https://entra.microsoft.com
+- https://intune.microsoft.com
