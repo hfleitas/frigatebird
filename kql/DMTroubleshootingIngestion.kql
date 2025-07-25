@@ -1,5 +1,7 @@
-//Steps
-1. Connect to the DM 
+///////////
+// Steps //
+///////////
+1. Connect to the DM using the ingest uri.
 2. Run .show ingestion resources. In this there will be 2 storage accounts under TempStorage.
 3. Pick the TempStorage that matches the .show ingestion failures of the engine node source blobs. The URL from the DM resources contains a SAS key at the end i.e. ?sv....
 4. Copy the SAS, attach it at the end of the blob needed to review out of the .show ingestion failures of the engine nodes. ie. https://<account>.blob.core...net/<date>-ingestdata-<id>-0<databasename>__<table>__StreamUpload__<guid>.json.gz?sv.....xxxxxx
@@ -8,7 +10,7 @@
 7. Query the table to review manual attempt. Consider editing the shape of the data in the blob and/or altering the table.column policy encoding to type BigObject32.
 
 
-#connect cluster('https://ingest-kvc43f0ee6600e24ef2b0e.southcentralus.kusto.windows.net')
+#connect cluster('https://ingest-<mycluster>.<region>.kusto.windows.net')
 
 .show ingestion resources | where * == 'TempStorage'
 
