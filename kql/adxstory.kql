@@ -9,7 +9,7 @@ $command_results
 .alter-merge table AADManagedIdentitySignInLogs ( ConditionalAccessPolicies: dynamic, LocationDetails: dynamic )
 
 
-.alter-merge table 33rd_CoS_NiFiEventLogs schema ( severity: string, version: string )
+.alter-merge table MyTable schema ( severity: string, version: string )
 .alter-merge table AADNonInteractiveUserSignInLogs schema ( AppliedEventListeners: dynamic, ConditionalAccessPolicies: dynamic, DeviceDetail: dynamic, IsInteractive: bool, IsRisky: bool, LocationDetails: dynamic, MfaDetail: dynamic, Status: dynamic )
 .alter-merge table AADServicePrincipalSignInLogs schema ( ConditionalAccessPolicies: dynamic, LocationDetails: dynamic )
 .alter-merge table ADFSSignInLogs schema ( ConditionalAccessPolicies: dynamic, DeviceDetail: dynamic, IsInteractive: bool, Status: dynamic )
@@ -59,7 +59,7 @@ MyTable
 MyTable
 
 
-// Colin Fix 'AADManagedIdentitySignInLogs','AADNonInteractiveUserSignInLogs','AADServicePrincipalSignInLogs','ADFSSignInLOgs','33rd_CoS_NiFiEventLogs'
+// Colin Fix 'AADManagedIdentitySignInLogs','AADNonInteractiveUserSignInLogs','AADServicePrincipalSignInLogs','ADFSSignInLOgs','MyTable'
 
 .create function with (folder='schemaSync') AADManagedIdentitySignInLogs () {
 
@@ -156,7 +156,7 @@ SessionId
 
 
 
-cluster('https://ade.loganalytics.io/subscriptions/059a6208-97b5-48d7-ad37-4005e57ff26c/resourcegroups/daf-sentinel-prod/providers/microsoft.operationalinsights/workspaces/milz-operations-prod-log').database('milz-operations-prod-log').AADManagedIdentitySignInLogs
+cluster('https://ade.loganalytics.io/subscriptions/<subscriptionid>/resourcegroups/<rgname>/providers/microsoft.operationalinsights/workspaces/<workspacename>').database('<workspacename>').AADManagedIdentitySignInLogs
 | count 
 
 .alter cluster policy callout
