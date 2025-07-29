@@ -5,7 +5,7 @@ This folder contains an ADF pipeline for copying a set of tables from Microsoft 
 - Incremental load
 - Lower frequency
 - Increase data freshnes
-- logicapp/scripted (powershell) approach instead of latent scheduled pipeline batching.
+- logicapp or scripted (powershell) approach instead of latent scheduled pipeline batching.
 
 ## Links
 - https://security.microsoft.com
