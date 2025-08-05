@@ -1,0 +1,115 @@
+// S3 - demo
+// https://noaa-nexrad-level2.s3.amazonaws.com/
+
+// docs
+// https://techcommunity.microsoft.com/blog/azuredataexplorer/azure-data-explorer-supports-native-ingestion-from-amazon-s3/
+
+// https://learn.microsoft.com/en-us/azure/data-explorer/get-data-amazon-s3
+
+
+// using IAM
+.ingest into table Table ( h'https://<bucket_name>.s3.<region_name>.amazonaws.com/<object_name>;AwsCredentials=<AWS_ACCESS_ID>,<AWS_SECRET_KEY>') 
+
+// using presigned url
+.ingest into table T ('h'https://<bucket_name>.s3.<region_name>.amazonaws.com/<object_name>?<pre signed string>')
+
+
+// Continous Method: 
+// Use Lambda (adx sdk .ingest push metadata) > Storage queue - Event trigger > ADX pulls blob from S3.
+// Sample Lambda using DotNet: https://github.com/Azure/azure-kusto-samples-dotnet/tree/master/S3/S3EventGridPoc
+
+
+.create table s3 (payload:dynamic)
+
+s3
+
+.ingest into table s3 ( h'https://noaa-nexrad-level2.s3.amazonaws.com') 
+
+.ingest into table s3 ( h'https://commoncrawl.s3.amazonaws.com;AwsCredentials=<AWS_ACCESS_ID>,<AWS_SECRET_KEY>') 
+
+.show ingestion failures | where Table == 's3' | sort by FailedOn | top 5 by FailedOn
+
+
+// https://aka.ms/kusto-storage-auth-methods
+
+.ingest into table s3 ( h'https://noaa-nexrad-level2.s3.us-east-1.amazonaws.com;AwsCredentials=AWS1234567890EXAMPLE,1234567890abc/1234567/12345678EXAMPLEKEY')
+
+.ingest into table s3 ( h'https://noaa-nexrad-level2.s3.us-east-1.amazonaws.com')
+
+//setup new IAM user (NOTE: THIS ACCOUNT & KEY IS DEACTIVATED)...
+AwsUser=s3demo
+AwsCredential=AKIAUJLTPQ4YTUQLWRO7
+AwsKey=ABpVvxM8mCFJVDF/e6n1nlztFyIocWw1oaV1bv8h
+
+.ingest into table s3 ( h'https://hiram.s3.us-east-1.amazonaws.com/s3demo.csv;AwsCredentials=AKIAUJLTPQ4YTUQLWRO7,ABpVvxM8mCFJVDF/e6n1nlztFyIocWw1oaV1bv8h')
+
+s3
+
+.ingest into table s3 ( h'https://hiram.s3.us-east-1.amazonaws.com/KDA.json;AwsCredentials=AKIAUJLTPQ4YTUQLWRO7,ABpVvxM8mCFJVDF/e6n1nlztFyIocWw1oaV1bv8h')
+
+
+s3
+
+// https://learn.microsoft.com/en-us/kusto/management/json-mapping?view=microsoft-fabric
+
+.show table s3 ingestion mappings 
+
+s3
+| getschema 
+
+.alter table MyTable ingestion json mapping "Mapping1"
+```
+[
+    { "column" : "rownumber", "DataType" : "int", "Properties":{"Path":"$.rownumber"}},
+    { "column" : "rowguid", "DataType":"string", "Properties":{"Path":"$.rowguid"}}
+]
+```
+
+.create table s3 ingestion json mapping  "s3_mapping_json"
+```
+[
+  {"Column": "payload",     "Properties": {"Path": "$"}}
+]
+```
+
+.show table s3 ingestion mappings
+
+.ingest into table s3 ( h'https://hiram.s3.us-east-1.amazonaws.com/KDA.json;AwsCredentials=AKIAUJLTPQ4YTUQLWRO7,ABpVvxM8mCFJVDF/e6n1nlztFyIocWw1oaV1bv8h')
+with (format="json", ingestionMappingReference ="s3_mapping_json")
+
+
+.ingest into table s3 ( h'https://hiram.s3.us-east-1.amazonaws.com/KDA.json;AwsCredentials=AKIAUJLTPQ4YTUQLWRO7,ABpVvxM8mCFJVDF/e6n1nlztFyIocWw1oaV1bv8h')
+with (format="json",ingestionMapping =
+      ```
+      [
+        {"Column": "payload", "Properties": {"Path": "$"}}
+      ]
+      ```)
+
+.ingest into table s3 with (format="json", ingestionMappingReference="s3_mapping_json") <| print payload=todynamic('{ "field1": "value1", "field2": 123, "field3": "2025-08-05T12:00:00Z" }')
+
+print payload=todynamic('{ "field1": "value1", "field2": 123, "field3": "2025-08-05T12:00:00Z" }')
+| project payload.field1
+
+
+.ingest inline into table s3
+    ["{""EventType"":""Read"", ""Count"":""12""}"]
+    ["{""EventType"":""Write"", ""EventValue"":""84""}"]
+with (format="json", ingestionMappingReference="s3_mapping_json")
+
+s3
+
+
+.ingest into table s3 ( h'https://hiram.s3.us-east-1.amazonaws.com/simplejson.json;AwsCredentials=AKIAUJLTPQ4YTUQLWRO7,ABpVvxM8mCFJVDF/e6n1nlztFyIocWw1oaV1bv8h')
+with (format="json", ingestionMappingReference ="s3_mapping_json")
+
+s3
+| extend ingestion_time()
+
+
+// example using creationTime
+.ingest into table s3 ( h'https://hiram.s3.us-east-1.amazonaws.com/simplejson.json;AwsCredentials=AKIAUJLTPQ4YTUQLWRO7,ABpVvxM8mCFJVDF/e6n1nlztFyIocWw1oaV1bv8h')
+with (format="json", ingestionMappingReference ="s3_mapping_json", creationTime="2025-08-01")
+
+
+.show table s3 extents 
