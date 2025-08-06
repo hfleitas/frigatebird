@@ -4,9 +4,9 @@ import urllib.parse
 import requests
 
 # Azure AD credentials
-tenantId = '7ae302c5-285b-462b-a289-85c67887b280' # Paste your directory (tenant) ID here
-clientId = '5b8131b6-e47c-497c-b600-2f0a96edcb86' # Paste your application (client) ID here
-appSecret = 'bjH8Q~Lt_Ixo2~36G5SB~3lvrgrMFEmPSYB~Dbd2' # Paste your own app secret here to test, then store it in a safe place, such as the Azure Key Vault!
+tenantId = '' # Paste your directory (tenant) ID here
+clientId = '' # Paste your application (client) ID here
+appSecret = '' # Paste your own app secret here to test, then store it in a safe place, such as the Azure Key Vault!
 
 # Microsoft Defender Token URL
 token_url = f"https://login.windows.net/{tenantId}/oauth2/token"
