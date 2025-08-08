@@ -1,0 +1,26 @@
+.create table s3 with (folder=raw) (payload:dynamic)
+
+s3
+| extend ingestion_time()
+| where ingestion_time() > ago(1h)
+
+
+.show ingestion failures | where FailedOn > ago(5m) and Table =='s3'
+
+
+.clear table s3 data
+
+s3 | extend ingestion_time()
+
+.show table s3 policy ingestionbatching 
+
+.show cluster policy ingestionbatching 
+
+.alter table s3 policy ingestionbatching 
+```
+{
+  "MaximumBatchingTimeSpan": "00:00:10",
+  "MaximumNumberOfItems": 500,
+  "MaximumRawDataSizeMB": 500
+}
+```
