@@ -20,7 +20,7 @@ s3 | extend ingestion_time()
 ```
 {
   "MaximumBatchingTimeSpan": "00:00:10",
-  "MaximumNumberOfItems": 500,
-  "MaximumRawDataSizeMB": 500
+  "MaximumNumberOfItems": 1,
+  "MaximumRawDataSizeMB": 100
 }
 ```
