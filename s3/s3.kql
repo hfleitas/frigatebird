@@ -1,4 +1,4 @@
-.create table s3 with (folder=raw) (payload:dynamic)
+.create table s3 (payload:dynamic) with (folder=raw)
 
 s3
 | extend ingestion_time()
