@@ -4,12 +4,12 @@ import gzip
 import json
 import io
  
-clusterPath = https://ingest-atef.westeurope.kusto.windows.net
-appId = "X"
-appKey = "X"
-appTenant = "X"
-dbName = "test_db"
-tableName = "RecordsData"
+clusterPath = https://ingest-<kluster>.<region>.kusto.windows.net
+appId = "<myappid>"
+appKey = "<secret>"
+appTenant = "<enantid>"
+dbName = "<dbname>"
+tableName = "<table>"
  
 csb = KustoConnectionStringBuilder.with_aad_application_key_authentication(
     clusterPath,
