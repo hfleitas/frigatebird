@@ -51,6 +51,7 @@ $null = [System.Reflection.Assembly]::LoadFrom("$pkgroot\Kusto.Data.dll")
 $null = [System.Reflection.Assembly]::LoadFrom("$pkgroot\Kusto.Ingest.dll")
 
 #  destination
+#  kql: .create table s3 (payload:dynamic)
 $uri = "https://ingest-kvc43f0ee6600e24ef2b0e.southcentralus.kusto.windows.net;Fed=True"
 $db = "MyDatabase"
 $t = "s3"
