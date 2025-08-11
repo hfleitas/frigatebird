@@ -1,0 +1,11 @@
+﻿.ingest inline into table DefenderAdxConfig <|
+"https://api.security.microsoft.com/api/incidents","Incidents","IncidentsRaw","lastUpdateTime",2000-01-01T00:0:00.5966667Z
+"https://api.securitycenter.microsoft.com/api/machines/SoftwareInventoryByMachine","DeviceTvmSoftwareInventory","DeviceTvmSoftwareInventoryRaw","EndOfSupportDate",2000-01-01T00:0:00.5966667Z
+"https://api.securitycenter.microsoft.com/api/machines/SecureConfigurationsAssessmentByMachine","DeviceTvmSecureConfigurationAssessment","DeviceTvmSecureConfigurationAssessmentRaw","Timestamp",2000-01-01T00:0:00.5966667Z
+"https://api.securitycenter.microsoft.com/api/machines/HardwareFirmwareInventoryByMachine","DeviceTvmHardwareFirmware","DeviceTvmHardwareFirmwareRaw","None",2000-01-01T00:0:00.5966667Z
+"https://api.securitycenter.microsoft.com/api/baselineProfiles","DeviceBaselineComplianceProfiles","DeviceBaselineComplianceProfilesRaw","LastUpdatedOn",2000-01-01T00:0:00.5966667Z
+"https://api.securitycenter.microsoft.com/api/baselineConfigurations","DeviceBaselineComplianceAssessmentKB","DeviceBaselineComplianceAssessmentKBRaw","None",2000-01-01T00:0:00.5966667Z
+"https://api.securitycenter.microsoft.com/api/machines/baselineComplianceAssessmentByMachine","DeviceBaselineComplianceAssessment","DeviceBaselineComplianceAssessmentRaw","None",2000-01-01T00:0:00.5966667Z
+"https://api.securitycenter.microsoft.com/api/Machines/BrowserExtensionsInventoryByMachine","DeviceTvmBrowserExtensions","DeviceTvmBrowserExtensionsRaw","InstallationTime",2000-01-01T00:0:00.5966667Z
+"https://api.securitycenter.microsoft.com/api/vulnerabilities/machinesVulnerabilities","DeviceTvmSoftwareVulnerabilities","DeviceTvmSoftwareVulnerabilitiesRaw","None",2000-01-01T00:0:00.5966667Z
+"https://api.securitycenter.microsoft.com/api/machines/CertificateAssessmentByMachine","DeviceTvmCertificateInfo","DeviceTvmCertificateInfoRaw","IssueDate",2000-01-01T00:0:00.5966667Z
