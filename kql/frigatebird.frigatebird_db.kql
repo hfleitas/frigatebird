@@ -1,68 +1,71 @@
-﻿.add database  ingestors (@'aadapp=13455d09-aa94-48a3-977d-3339b23a3846;16b3c013-d300-468d-ac64-7eda0820b6d3') "Added as \'aadapp=762644ae-cee6-4aec-adf6-1ac4b516d44c;16b3c013-d300-468d-ac64-7eda0820b6d3\'"
-.add database  ingestors (@'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280') "Added as \'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280\'"
-.add database  users (@'aadapp=13455d09-aa94-48a3-977d-3339b23a3846;16b3c013-d300-468d-ac64-7eda0820b6d3') "Added as \'aadapp=762644ae-cee6-4aec-adf6-1ac4b516d44c;16b3c013-d300-468d-ac64-7eda0820b6d3\'"
-.add database  users (@'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280') "Added as \'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280\'"
-.add database  users (@'aaduser=9778507b-4298-4a84-9c54-530c0543c3a8;72f988bf-86f1-41af-91ab-2d7cd011db47') "v-aashikma@microsoft.com"
-.add database  viewers (@'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280') "Added as \'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280\'"
-.add materialized-view VwLatestConfig admins (@'kusto=KustoServiceBuiltInPrincipal')
-.add table DefenderAdxConfig admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
-.add table DeviceBaselineComplianceAssessmentKBRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
-.add table DeviceBaselineComplianceAssessmentRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
-.add table DeviceBaselineComplianceProfilesRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
-.add table DeviceTvmBrowserExtensionsRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
-.add table DeviceTvmCertificateInfoRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
-.add table DeviceTvmHardwareFirmwareRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
-.add table DeviceTvmSecureConfigurationAssessmentRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
-.add table DeviceTvmSoftwareInventoryRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
-.add table DeviceTvmSoftwareVulnerabilitiesRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
 .alter database policy retention @'{"SoftDeletePeriod":"36500.00:00:00","Recoverability":"Disabled"}'
-.create-merge table DefenderAdxConfig (APIEndpoint:string, SourceTable:string, DestinationTable:string, WatermarkColumn:string, LastModifiedTime:datetime) 
-.create-merge table DeviceBaselineComplianceAssessmentKBRaw (Records:dynamic) 
-.create-merge table DeviceBaselineComplianceAssessmentRaw (Records:dynamic) 
-.create-merge table DeviceBaselineComplianceProfilesRaw (Records:dynamic) 
-.create-merge table DeviceTvmBrowserExtensionsRaw (Records:dynamic) 
-.create-merge table DeviceTvmCertificateInfoRaw (Records:dynamic) 
-.create-merge table DeviceTvmHardwareFirmwareRaw (Records:dynamic) 
-.create-merge table DeviceTvmSecureConfigurationAssessmentRaw (Records:dynamic) 
+.add database  users (@'aadapp=13455d09-aa94-48a3-977d-3339b23a3846;16b3c013-d300-468d-ac64-7eda0820b6d3') "Added as \'aadapp=762644ae-cee6-4aec-adf6-1ac4b516d44c;16b3c013-d300-468d-ac64-7eda0820b6d3\'"
+.add database  ingestors (@'aadapp=13455d09-aa94-48a3-977d-3339b23a3846;16b3c013-d300-468d-ac64-7eda0820b6d3') "Added as \'aadapp=762644ae-cee6-4aec-adf6-1ac4b516d44c;16b3c013-d300-468d-ac64-7eda0820b6d3\'"
+.add database  users (@'aaduser=9778507b-4298-4a84-9c54-530c0543c3a8;72f988bf-86f1-41af-91ab-2d7cd011db47') "v-aashikma@microsoft.com"
+.add database  ingestors (@'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280') "Added as \'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280\'"
+.add database  users (@'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280') "Added as \'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280\'"
+.add database  viewers (@'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280') "Added as \'aadapp=5b8131b6-e47c-497c-b600-2f0a96edcb86;7ae302c5-285b-462b-a289-85c67887b280\'"
 .create-merge table DeviceTvmSoftwareInventoryRaw (Records:dynamic) 
-.create-merge table DeviceTvmSoftwareVulnerabilitiesRaw (Records:dynamic) 
-.create-or-alter materialized-view  VwLatestConfig on table DefenderAdxConfig { DefenderAdxConfig 
-    |extend IngestionTime = ingestion_time()
-    |extend LastModifiedTimeInString= tostring(LastModifiedTime)
-    |summarize arg_max(IngestionTime, *) by SourceTable }
-.create-or-alter table DeviceBaselineComplianceAssessmentKBRaw ingestion json mapping 'DynamicJsonMap'
-```
-[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
-```
-.create-or-alter table DeviceBaselineComplianceAssessmentRaw ingestion json mapping 'DynamicJsonMap'
-```
-[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
-```
-.create-or-alter table DeviceBaselineComplianceProfilesRaw ingestion json mapping 'DynamicJsonMap'
-```
-[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
-```
-.create-or-alter table DeviceTvmBrowserExtensionsRaw ingestion json mapping 'DynamicJsonMap'
-```
-[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
-```
-.create-or-alter table DeviceTvmCertificateInfoRaw ingestion json mapping 'DynamicJsonMap'
-```
-[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
-```
-.create-or-alter table DeviceTvmHardwareFirmwareRaw ingestion json mapping 'DynamicJsonMap'
-```
-[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
-```
-.create-or-alter table DeviceTvmSecureConfigurationAssessmentRaw ingestion json mapping 'DynamicJsonMap'
-```
-[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
-```
 .create-or-alter table DeviceTvmSoftwareInventoryRaw ingestion json mapping 'DynamicJsonMap'
 ```
 [{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
 ```
+.create-merge table DeviceTvmSecureConfigurationAssessmentRaw (Records:dynamic) 
+.create-or-alter table DeviceTvmSecureConfigurationAssessmentRaw ingestion json mapping 'DynamicJsonMap'
+```
+[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
+```
+.create-merge table DeviceTvmHardwareFirmwareRaw (Records:dynamic) 
+.create-or-alter table DeviceTvmHardwareFirmwareRaw ingestion json mapping 'DynamicJsonMap'
+```
+[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
+```
+.create-merge table DeviceBaselineComplianceProfilesRaw (Records:dynamic) 
+.create-or-alter table DeviceBaselineComplianceProfilesRaw ingestion json mapping 'DynamicJsonMap'
+```
+[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
+```
+.create-merge table DeviceBaselineComplianceAssessmentKBRaw (Records:dynamic) 
+.create-or-alter table DeviceBaselineComplianceAssessmentKBRaw ingestion json mapping 'DynamicJsonMap'
+```
+[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
+```
+.create-merge table DeviceBaselineComplianceAssessmentRaw (Records:dynamic) 
+.create-or-alter table DeviceBaselineComplianceAssessmentRaw ingestion json mapping 'DynamicJsonMap'
+```
+[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
+```
+.create-merge table DeviceTvmBrowserExtensionsRaw (Records:dynamic) 
+.create-or-alter table DeviceTvmBrowserExtensionsRaw ingestion json mapping 'DynamicJsonMap'
+```
+[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
+```
+.create-merge table DeviceTvmSoftwareVulnerabilitiesRaw (Records:dynamic) 
 .create-or-alter table DeviceTvmSoftwareVulnerabilitiesRaw ingestion json mapping 'DynamicJsonMap'
 ```
 [{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
 ```
+.create-merge table DeviceTvmCertificateInfoRaw (Records:dynamic) 
+.create-or-alter table DeviceTvmCertificateInfoRaw ingestion json mapping 'DynamicJsonMap'
+```
+[{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
+```
+.create-merge table MigrationConfiguration (SourceTable:string, DestinationTable:string, WatermarkColumn:string, LastRefreshedTime:datetime, LoadType:string, IsActive:bool) 
+.create-merge table MigrationAuditLog (TableName:string, Timestamp:datetime, Status:string, FailureReason:string, RecordCount:int) 
+.create-or-alter materialized-view  VwLatestMigrationConfiguration on table MigrationConfiguration { MigrationConfiguration 
+    | where IsActive==true
+    |extend IngestionTime = ingestion_time()
+    |extend LastRefreshedTimeInString= tostring(LastRefreshedTime)
+    |summarize arg_max(LastRefreshedTime, *) by SourceTable }
+.add materialized-view VwLatestMigrationConfiguration admins (@'kusto=KustoServiceBuiltInPrincipal')
+.add table DeviceTvmSoftwareInventoryRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
+.add table DeviceTvmSecureConfigurationAssessmentRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
+.add table DeviceTvmHardwareFirmwareRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
+.add table DeviceBaselineComplianceProfilesRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
+.add table DeviceBaselineComplianceAssessmentKBRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
+.add table DeviceBaselineComplianceAssessmentRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
+.add table DeviceTvmBrowserExtensionsRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
+.add table DeviceTvmSoftwareVulnerabilitiesRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
+.add table DeviceTvmCertificateInfoRaw admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
+.add table MigrationConfiguration admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
+.add table MigrationAuditLog admins (@'aaduser=f18a1c79-7841-4de1-bfb1-3854a2e4a756;16b3c013-d300-468d-ac64-7eda0820b6d3')
