@@ -1,53 +1,53 @@
 .execute database script <|
 .add database  users (@'aadapp=<appreg_appid>;<appreg_tenantid>') 
 .add database  ingestors (@'aadapp=<appreg_appid>;<appreg_tenantid>') 
-.create-merge table DeviceTvmSoftwareInventoryRaw (Records:dynamic) 
+.create-merge table DeviceTvmSoftwareInventoryRaw (Records:dynamic) with (folder='Raw')
 .create-or-alter table DeviceTvmSoftwareInventoryRaw ingestion json mapping 'DynamicJsonMap'
 ```
 [{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
 ```
-.create-merge table DeviceTvmSecureConfigurationAssessmentRaw (Records:dynamic) 
+.create-merge table DeviceTvmSecureConfigurationAssessmentRaw (Records:dynamic) with (folder='Raw')
 .create-or-alter table DeviceTvmSecureConfigurationAssessmentRaw ingestion json mapping 'DynamicJsonMap'
 ```
 [{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
 ```
-.create-merge table DeviceTvmHardwareFirmwareRaw (Records:dynamic) 
+.create-merge table DeviceTvmHardwareFirmwareRaw (Records:dynamic) with (folder='Raw')
 .create-or-alter table DeviceTvmHardwareFirmwareRaw ingestion json mapping 'DynamicJsonMap'
 ```
 [{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
 ```
-.create-merge table DeviceBaselineComplianceProfilesRaw (Records:dynamic) 
+.create-merge table DeviceBaselineComplianceProfilesRaw (Records:dynamic) with (folder='Raw')
 .create-or-alter table DeviceBaselineComplianceProfilesRaw ingestion json mapping 'DynamicJsonMap'
 ```
 [{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
 ```
-.create-merge table DeviceBaselineComplianceAssessmentKBRaw (Records:dynamic) 
+.create-merge table DeviceBaselineComplianceAssessmentKBRaw (Records:dynamic) with (folder='Raw')
 .create-or-alter table DeviceBaselineComplianceAssessmentKBRaw ingestion json mapping 'DynamicJsonMap'
 ```
 [{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
 ```
-.create-merge table DeviceBaselineComplianceAssessmentRaw (Records:dynamic) 
+.create-merge table DeviceBaselineComplianceAssessmentRaw (Records:dynamic) with (folder='Raw')
 .create-or-alter table DeviceBaselineComplianceAssessmentRaw ingestion json mapping 'DynamicJsonMap'
 ```
 [{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
 ```
-.create-merge table DeviceTvmBrowserExtensionsRaw (Records:dynamic) 
+.create-merge table DeviceTvmBrowserExtensionsRaw (Records:dynamic) with (folder='Raw')
 .create-or-alter table DeviceTvmBrowserExtensionsRaw ingestion json mapping 'DynamicJsonMap'
 ```
 [{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
 ```
-.create-merge table DeviceTvmSoftwareVulnerabilitiesRaw (Records:dynamic) 
+.create-merge table DeviceTvmSoftwareVulnerabilitiesRaw (Records:dynamic) with (folder='Raw')
 .create-or-alter table DeviceTvmSoftwareVulnerabilitiesRaw ingestion json mapping 'DynamicJsonMap'
 ```
 [{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
 ```
-.create-merge table DeviceTvmCertificateInfoRaw (Records:dynamic) 
+.create-merge table DeviceTvmCertificateInfoRaw (Records:dynamic) with (folder='Raw')
 .create-or-alter table DeviceTvmCertificateInfoRaw ingestion json mapping 'DynamicJsonMap'
 ```
 [{"Properties":{"Path":"$"},"column":"Records","datatype":"dynamic"}]
 ```
-.create-merge table MigrationConfiguration (SourceTable:string, DestinationTable:string, WatermarkColumn:string, LastRefreshedTime:datetime, LoadType:string, IsActive:bool) 
-.create-merge table MigrationAuditLog (TableName:string, Timestamp:datetime, Status:string, FailureReason:string, RecordCount:int) 
+.create-merge table MigrationConfiguration (SourceTable:string, DestinationTable:string, WatermarkColumn:string, LastRefreshedTime:datetime, LoadType:string, IsActive:bool) with (folder='ExportConfig')
+.create-merge table MigrationAuditLog (TableName:string, Timestamp:datetime, Status:string, FailureReason:string, RecordCount:int) with (folder='ExportConfig')
 .create-or-alter materialized-view  VwLatestMigrationConfiguration on table MigrationConfiguration { MigrationConfiguration 
     | where IsActive==true
     |extend IngestionTime = ingestion_time()
