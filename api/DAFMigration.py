@@ -280,7 +280,7 @@ def ingest_defender_data(bootstrap: dict):
                 print(f"Data ingestion error for {source_tbl}: {FailuerMessgae}")
 
             # --------Step-7--Audit Table Logging ----------------
-            now = datetime.utcnow()
+            now = datetime.now(timezone.utc).replace(tzinfo=None)
             ingest_audit_command = f"""
             .set-or-append {bootstrap['audit_table']} <|
             datatable (
