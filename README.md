@@ -3,6 +3,7 @@ This repo contains items related to Cloud Accelerate Factory customer engagement
 - [kql](kql)
 - [CAF-ILZFed.pdf](CAF-ILZFed.pdf)
 - [deploy](deploy)
+- [Migration.md](Migration.md) - Guide for export process of specific TVM tables to ADX.
 
 ## Training
 - https://aka.ms/vbdadx (MS-Internal VBDs)
