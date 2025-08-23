@@ -10,7 +10,7 @@ The repo has 2 methods of exporting TVM tables. 
 
 - Using scripted approach (**RECOMMENDED**): The Cloud Accelerate Factory team has developed and tested a python script to use a meta-driven approach for the export, supports exporting within the Defender API limits, full and incremental loads on a scheduled cadence. You can deploy the python script as an azure runbook or function and schedule it to run on the desired cadence the customer requires. At the moment of this commit, the python script processes chunks sequentially; we will send a PR later this week that processes the chunks in-parallel for faster throughput and additional deployment guidance to the repo. You should not modify anything other than the api endpoint, if using an Azure Gov cloud region, on the python script.
   
-Run these steps in order to deploy it:
+Run these steps in order to deploy it (see [Migration.md](/Migration.md) for more details):
 1. Create the app registration and grant it read permissions as Delegated & Application for Microsoft Threat Protection & WindowsDefenderATP. Permissions granted during our tests are documented in this repo's [api](/api) folder, see [readme.md](/api/readme.md). Most of which do require Admin consent.
 2. [TVMExportConfig.kql](/kql/TVMExportConfig.kql) (enter your App Registration ID and Tenant ID).
 3. [TVMExportConfigInsert.kql](/kql/TVMExportConfigInsert.kql).
