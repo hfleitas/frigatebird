@@ -71,7 +71,7 @@ We can provide **admins**, **viewers**, **ingestors** and/or **users** roles in 
 
 Optionally, we can add AAD users as following:
 
-`.add database DBName viewers ('aaduser=xxxxx@domain.com') ' xxxxx@domain.com'`
+`.add database DBName viewers ('aaduser=xxxxx@domain.com;tenantId') 'xxxxx@domain.com'`
 
 
 ## 💡 Step 3:
