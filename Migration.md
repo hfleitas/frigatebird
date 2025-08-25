@@ -5,7 +5,7 @@ This migration/export is the process of extracting Microsoft Defender data (via 
 ## ⚙️ Step 1
 ### Creation of configuration and Audit tables and Other API Tables in Azure Data Explorer Database
 
-- (a) Migration Configuration Table
+#### (a) Migration Configuration Table
 This table stores which Defender source tables should be migrated, their destination in ADX, and the state of migration (last refresh time, load type, etc.).
 
 ```
@@ -22,7 +22,7 @@ This table stores which Defender source tables should be migrated, their destina
 
 <img width="1057" height="455" alt="image" src="https://github.com/user-attachments/assets/adb0b455-9df3-4a8b-bcb8-9f92b07705f8" />
 
-- (b) Migration Audit Log Table
+#### (b) Migration Audit Log Table
 This table stores the status of each ingestion run for monitoring & troubleshooting.
 
 ```
@@ -37,7 +37,7 @@ This table stores the status of each ingestion run for monitoring & troubleshoot
 
 <img width="940" height="346" alt="image" src="https://github.com/user-attachments/assets/f0e40d69-4be6-4761-b0ce-1233da8b4d11" />
 
-- (c) Destination (API) Tables
+#### (c) Destination (API) Tables
 We are loading data from Defender tables into following instance of table
 
 We have created RAW tables with **Records** column as **dynamic** datatype and  created a json ingestion mapping name: _DynamicJsonMap_ as following e.g.
