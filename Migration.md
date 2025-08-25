@@ -74,7 +74,7 @@ Optionally, we can add AAD users as following:
 `.add database DBName viewers ('aaduser=xxxxx@domain.com;tenantId') 'xxxxx@domain.com'`
 
 
-## 💡 Step 3:
+## 💡 Step 3
 ### Providing access to service principal for defender API
 
 Granting service principal access to Microsoft Defender APIs.
@@ -121,7 +121,7 @@ By following steps above, you have successfully provided your app registration w
 You can find more specific examples for different Defender APIs and permission scopes in the official Microsoft documentation. 
 
 
-## 🪜 Step-4
+## 🪜 Step 4
 ### Step-by-Step Flow of the Script
 
 1. Prerequisites / Imports
