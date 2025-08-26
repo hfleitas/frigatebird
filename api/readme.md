@@ -1,5 +1,6 @@
 ## Defender API References
 
+- https://learn.microsoft.com/en-us/defender-endpoint/api/run-advanced-query-api#limitations
 - https://learn.microsoft.com/en-us/defender-xdr/api-hello-world
 - https://learn.microsoft.com/en-us/defender-endpoint/api/api-hello-world
 
