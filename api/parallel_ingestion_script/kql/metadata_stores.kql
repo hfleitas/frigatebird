@@ -1,0 +1,55 @@
+.execute database script <|
+.create table meta_MigrationConfiguration (
+    SourceTable: string,
+    DestinationFolder: string,
+    DestinationTable: string,
+    WatermarkColumn: string,
+    LastRefreshedTime: datetime,
+    HighWatermark: datetime,
+    LoadType: string,
+    IsActive: bool
+) with (folder = 'metadata_tables')
+.create table meta_MigrationAudit (
+    ingestion_id: string,
+    ingestion_timestamp: datetime,
+    folder: string,
+    table: string,
+    success: bool,
+    records_processed: long,
+    chunked: bool,
+    chunks_processed: int,
+    chunks_failed: int,
+    chunk_results: dynamic,
+    error: string
+) with (folder = 'metadata_tables')
+.create table meta_ChunkIngestionFailures (
+    ingestion_id: string,
+    ingestion_timestamp: datetime,
+    folder: string,
+    table: string,
+    chunk_id: int,
+    success: bool,
+    records_count: int,
+    records_processed: int,
+    low_watermark: datetime,
+    high_watermark: datetime,
+    error: string,
+    reprocess_success: bool
+) with (folder = 'metadata_tables')
+.create function with (view = true, folder = 'metadata_views') vw_meta_LatestMigrationConfiguration() {
+    meta_MigrationConfiguration
+    | extend IngestionTime = ingestion_time(),
+             HighWatermark = format_datetime(HighWatermark, 'yyyy-MM-dd HH:mm:ss.fffffff')
+    | summarize arg_max(IngestionTime, *) by SourceTable
+    | where IsActive == true
+}
+.create function with (view = true, folder = 'metadata_views') vw_meta_LatestChunkIngestionFailures() {
+    meta_ChunkIngestionFailures
+    | extend IngestionTime = ingestion_time(),
+             low_watermark  = format_datetime(low_watermark, 'yyyy-MM-dd HH:mm:ss.fffffff'),
+             high_watermark = format_datetime(high_watermark, 'yyyy-MM-dd HH:mm:ss.fffffff')
+    | summarize arg_max(IngestionTime, *) by table
+    | where reprocess_success == false
+      and isnotempty(low_watermark)
+      and isnotempty(high_watermark)
+}
