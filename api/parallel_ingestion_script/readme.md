@@ -109,11 +109,16 @@ AZURE_TENANT_ID=<your-tenant-id>
 ### 3️⃣ Setup Metadata Tables and Functions in ADX
 Execute the script in [metadata_stores.kql](kql/metadata_stores.kql) on your desired ADX database
 - meta_MigrationConfiguration
-<img width="940" height="346" alt="image" src="https://github.com/AdityaHoode/FnApp_Defender_to_ADX_Async_Ingestion/blob/main/assets/meta_MigrationConfiguration.png?raw=true" />
+
+  ![meta_MigrationConfiguration](assets/meta_MigrationConfiguration.png "meta_MigrationConfiguration")
+
 - meta_MigrationAudit
-<img width="940" height="346" alt="image" src="https://github.com/AdityaHoode/FnApp_Defender_to_ADX_Async_Ingestion/blob/main/assets/meta_MigrationAudit.png?raw=true" />
+
+  ![meta_MigrationAudit](assets/meta_MigrationAudit.png "meta_MigrationAudit")
+  
 - vw_meta_LatestMigrationConfiguration
-<img width="940" height="346" alt="image" src="https://github.com/AdityaHoode/FnApp_Defender_to_ADX_Async_Ingestion/blob/main/assets/vw_meta_LatestMigrationConfiguration.png?raw=true" />
+
+  ![vw_meta_LatestMigrationConfiguration](assets/vw_meta_LatestMigrationConfiguration.png "vw_meta_LatestMigrationConfiguration")
 
 ---
 
@@ -161,17 +166,26 @@ A dictionary containing ADX cluster and ingestion URIs, database and table names
 1. Press `F5` or click the **Run and Debug** icon in the Activity bar on the left. If it doesn’t run, press `F1`, search for **Azure Functions: Create New Project...**, and select it. The Azure Functions extension will initialize the project and you can then use `F5` to run the function.
 2. The Terminal panel will display the output from Azure Functions Core Tools.  
 3. Your function app starts locally, and you can see the URL endpoint of your HTTP-triggered function running.
-   <img width="940" height="346" alt="image" src="https://github.com/AdityaHoode/FnApp_Defender_to_ADX_Async_Ingestion/blob/main/assets/run_fnapp_locally_1.png?raw=true" />
-4. Start the Orchestration
+
+   ![run_fnapp_locally_1.png](assets/run_fnapp_locally_1.png "run_fnapp_locally_1.png")
+   
+5. Start the Orchestration
    - Send a GET request to the **adxingestor** URL to start the orchestration.
-   <img width="940" height="346" alt="image" src="https://github.com/AdityaHoode/FnApp_Defender_to_ADX_Async_Ingestion/blob/main/assets/run_fnapp_locally_2.png?raw=true" />
-5. Check Status or Terminate the Orchestration
+   
+   ![run_fnapp_locally_2.png](assets/run_fnapp_locally_2.png "run_fnapp_locally_2.png")
+
+6. Check Status or Terminate the Orchestration
    - To get the status of the orchestration run, send a GET request to the get_status URL. Replace {instanceId} with the actual orchestration ID.
-   <img width="940" height="346" alt="image" src="https://github.com/AdityaHoode/FnApp_Defender_to_ADX_Async_Ingestion/blob/main/assets/run_fnapp_locally_3.png?raw=true" />
-   <img width="940" height="346" alt="image" src="https://github.com/AdityaHoode/FnApp_Defender_to_ADX_Async_Ingestion/blob/main/assets/run_fnapp_locally_4.png?raw=true" />
+   
+   ![run_fnapp_locally_3.png](assets/run_fnapp_locally_3.png "run_fnapp_locally_3.png")
+
+   ![run_fnapp_locally_4.png](assets/run_fnapp_locally_4.png "run_fnapp_locally_4.png")
+   
    - To terminate the orchestration run, send a POST request to the terminate_orchestration URL, using the same {instanceId} replacement.
-   <img width="940" height="346" alt="image" src="https://github.com/AdityaHoode/FnApp_Defender_to_ADX_Async_Ingestion/blob/main/assets/run_fnapp_locally_5.png?raw=true" />
-6. With the Terminal panel focused, press Ctrl + C to stop Core Tools and disconnect the debugger.
+   
+   ![run_fnapp_locally_5.png](assets/run_fnapp_locally_5.png "run_fnapp_locally_5.png")
+
+8. With the Terminal panel focused, press Ctrl + C to stop Core Tools and disconnect the debugger.
 
 ---
 
