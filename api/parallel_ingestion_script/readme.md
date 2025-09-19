@@ -1,6 +1,6 @@
 # Export MS Defender TVM to ADX
 
-This migration/export is the process of extracting Microsoft Defender data (via Advanced Hunting API) and loading it into Microsfot Fabric Real-Time Intellingence Eventhouse or Azure Data Explorer (ADX) tables for analytics, retention, and integration with other security data.
+This migration/export is the process of extracting Microsoft Defender data (via Advanced Hunting API) and loading it into Microsoft Fabric Real-Time Intellingence Eventhouse or Azure Data Explorer (ADX) tables for analytics, retention, and integration with other security data.
 
 The script is designed to facilitate data migration and error recovery. The script performs two main operations:
 
