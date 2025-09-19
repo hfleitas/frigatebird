@@ -107,7 +107,7 @@ AZURE_TENANT_ID=<your-tenant-id>
 ---
 
 ### 3️⃣ Setup Metadata Tables and Functions in ADX
-Execute the script in kql/metadata_stores.kql on your desired ADX database
+Execute the script in [metadata_stores.kql](kql/metadata_stores.kql) on your desired ADX database
 - meta_MigrationConfiguration
 <img width="940" height="346" alt="image" src="https://github.com/AdityaHoode/FnApp_Defender_to_ADX_Async_Ingestion/blob/main/assets/meta_MigrationConfiguration.png?raw=true" />
 - meta_MigrationAudit
