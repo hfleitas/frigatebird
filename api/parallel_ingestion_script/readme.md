@@ -143,7 +143,7 @@ A dictionary containing ADX cluster and ingestion URIs, database and table names
 
 ---
 
-## 👟 Step 5
+## 👟 Step 4
 ### Run the script locally as a Function App
 
 ### 1️⃣ Install Dependencies
